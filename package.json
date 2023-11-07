@@ -1,0 +1,26 @@
+{
+	"name": "adminjs-with-node-mongodb",
+	"version": "1.0.0",
+	"description": "This is a adminjs base app with express and mongodb. It can be used as a boilerplate for creating other adminJs applications.",
+	"main": "app.js",
+	"type": "module",
+	"scripts": {
+		"start": "cross-env NODE_ENV=prod node ./bin/www",
+		"dev": "cross-env NODE_ENV=dev nodemon ./bin/www",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Vikas M",
+	"license": "ISC",
+	"dependencies": {
+		"@adminjs/express": "^6.0.1",
+		"@adminjs/mongoose": "^4.0.0",
+		"adminjs": "^7.3.0",
+		"cross-env": "^7.0.3",
+		"dotenv": "^16.3.1",
+		"express": "^4.18.2",
+		"mongoose": "^8.0.0"
+	},
+	"devDependencies": {
+	  "nodemon": "^3.0.1"
+	}
+}

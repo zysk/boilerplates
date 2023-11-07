@@ -6,4 +6,5 @@ This repo holds the boilerplate of various tech stacks which can be downloaded a
 
 | Base App | Branch Name | Github Branch Link |
 | - | - | - |
-|Nade App with MongoDB|node-with-mongo-be|https://github.com/zysk/boilerplates/tree/node-with-mongo-be
+|Node App with MongoDB|node-with-mongo-be|https://github.com/zysk/boilerplates/tree/node-with-mongo-be
+|AdminJs App with nodeJs and MongoDB|adminjs-with-node-mongodb|https://github.com/zysk/boilerplates/tree/adminjs-with-node-mongodb

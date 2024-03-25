@@ -1,0 +1,14 @@
+#!/bin/bash
+. "$(dirname "$0")/_/husky.sh"
+
+# Check if we are moving between branches (3rd argument is 1). If not, it's likely just a file checkout.
+if [ "$3" = "1" ]; then
+	# echo "Switched branches! Do you want install pacakages ? (Y/N)"
+	# read response
+	# if [ $response == Y ];	then
+	# 	echo "Installing npm packages... 🚀"
+    # 	npm ci
+	# else
+    	echo "Branch checked out!. 👍 Make sure your install any necessary npm packages using 'npm ci' if required 😊"
+	# fi
+fi

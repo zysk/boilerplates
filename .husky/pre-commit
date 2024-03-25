@@ -1,0 +1,43 @@
+#!/bin/bash
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🚀👩‍💻 Hey there, fellow coder! Let's beautify your code and test your project before committing. 🎉"
+
+# Run Prettier and ESLint on staged files
+npx lint-staged || (
+    echo "😅 Oops, your code needs a little beauty treatment.
+            Prettier Check Failed. Please run npm run format, add your changes, and try committing again. You're doing great! 💪";
+    echo "🕵️‍♀️ Oops, your code needs a little more tidying up!
+                ESLint Check Failed. Make the required changes listed above, add them and try to commit again. Keep going, you're doing awesome! 🌟";
+    exit 1;
+)
+
+# If everything passes... validate branch name
+LC_ALL=C
+
+# local_branch="$(git rev-parse --abbrev-ref HEAD)"
+
+# echo "you are in $local_branch branch 🌳"
+
+# valid_branch_regex="^(feature|feat|fix|hotfix|release)\/[a-zA-Z0-9._-]+$"
+
+# message="try matching this example pattern fix/my_new_feature you can prefix with feature, feat, fix, hotfix, release 💡"
+
+# if ! echo "$local_branch" | grep -q -E "$valid_branch_regex"
+# then
+#     echo "🙀 Oh no, the branch name doesn't match our pattern.
+#         $message"
+#     exit 1
+# fi
+
+# If everything passes... Now we can commit
+echo "Looking good... Let's start building your project... 🏗️👷"
+
+npm run build || (
+    echo "👷 Oh no, your build just failed. Better call Bob the Builder...
+            Check out the errors above to see why. Keep your spirits high, we'll get through this! 🌈";
+    exit 1;
+)
+
+# If everything passes... Now we can commit
+echo "🎉🎉 Woohoo! Your code is squeaky clean. Let's get this committed. 💖💖"

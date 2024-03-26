@@ -1,8 +1,8 @@
 import { Column, Entity } from 'typeorm';
-import { Master } from '../../common/base_entity/master';
+import { Common } from '../../common/entities/common';
 
 @Entity('user')
-export class User extends Master {
+export class User extends Common {
 	@Column({ name: 'email', unique: true })
 	email: string;
 

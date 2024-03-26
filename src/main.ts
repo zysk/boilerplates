@@ -8,10 +8,9 @@ import { ValidationException } from './common/exceptions/validation.exception';
 import { CustomExceptionFilter } from './common/exceptions/custom.exception';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { EnvVariables, NodeEnvironment } from './common/env-config';
 
 async function bootstrap() {
-	const configService = new ConfigService();
-
 	const app = await NestFactory.create(AppModule, {
 		/* Enables request from given domains and types */
 		cors: {
@@ -22,6 +21,8 @@ async function bootstrap() {
 		/* Whether to use underlying platform body parser */
 		bodyParser: true
 	});
+
+	const configService = app.get(ConfigService<EnvVariables, true>);
 
 	app.setGlobalPrefix(configService.get<string>('BASE_PATH'));
 
@@ -49,17 +50,23 @@ async function bootstrap() {
 	app.useGlobalFilters(new CustomExceptionFilter());
 
 	/*Swagger configuration*/
-	const swaggerConfig = new DocumentBuilder()
-		.setTitle('App name')
-		.setDescription('Swagger based API documentation for App name.')
-		.setVersion('1.0')
-		.addBearerAuth()
-		.build();
+	if (
+		configService.get('NODE_ENV', { infer: true }) !== NodeEnvironment.Prod
+	) {
+		const swaggerConfig = new DocumentBuilder()
+			.setTitle('App name')
+			.setDescription('Swagger based API documentation for App name.')
+			.setVersion('1.0')
+			.addBearerAuth()
+			.build();
 
-	const document = SwaggerModule.createDocument(app as any, swaggerConfig);
+		const document = SwaggerModule.createDocument(
+			app as any,
+			swaggerConfig
+		);
 
-	SwaggerModule.setup('api/v1/api-doc', app as any, document);
-
+		SwaggerModule.setup('api/v1/api-doc', app as any, document);
+	}
 	// Data Seeding connection
 	dataSource
 		.initialize()
@@ -74,7 +81,8 @@ async function bootstrap() {
 			console.error(error);
 			dataSource.destroy();
 		});
+	const port = configService.get('PORT', { infer: true }) || 3000;
 
-	await app.listen(configService.get<number>('PORT'));
+	await app.listen(port);
 }
 bootstrap();

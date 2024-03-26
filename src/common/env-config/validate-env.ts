@@ -14,6 +14,7 @@ export function validateEnv(config: Record<string, unknown>): EnvVariables {
 	if (errors.length) {
 		throw new Error(errors.toString());
 	}
+	console.log('wokring');
 
 	return validateConfig;
 }

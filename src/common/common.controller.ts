@@ -9,7 +9,7 @@ import {
 	FindOptionsOrder
 } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { PageOptions } from './utils/classes/page-options.class';
+import { PageOptions } from './dto/page.dto';
 import { ICommonController } from './utils/interfaces/common.interface';
 import { TCommonController } from './utils/types/types';
 

@@ -1,6 +1,6 @@
 import { CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 
-export class Master2 {
+export class Common2 {
 	/**
 	 * Column : createdAt
 	 */

@@ -4,7 +4,8 @@ import {
 	IsEnum,
 	IsString,
 	IsBoolean,
-	IsOptional
+	IsOptional,
+	IsNotEmpty
 } from 'class-validator';
 
 export enum NodeEnvironment {
@@ -18,21 +19,23 @@ export class EnvVariables {
 	PORT: number;
 
 	@IsEnum(NodeEnvironment)
+	@IsNotEmpty()
 	NODE_ENV: NodeEnvironment;
 
 	@IsString()
-	APP_URL: string;
-
-	@IsString()
+	@IsNotEmpty()
 	DB_HOST: string;
 
 	@IsString()
+	@IsNotEmpty()
 	DB_USER: string;
 
 	@IsString()
+	@IsNotEmpty()
 	DB_PASS: string;
 
 	@IsString()
+	@IsNotEmpty()
 	DB_NAME: string;
 
 	@IsBoolean()
@@ -44,4 +47,8 @@ export class EnvVariables {
 	@IsOptional()
 	@Type(() => Boolean)
 	DB_SSL = true;
+
+	@IsNotEmpty()
+	@IsString()
+	BASE_PATH: string;
 }

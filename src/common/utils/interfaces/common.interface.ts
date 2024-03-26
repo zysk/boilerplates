@@ -7,8 +7,8 @@ import {
 } from './response.interface';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { TCommonController, TCommonService } from '../types/types';
-import { QueryOptions } from '../classes/query-options.class';
-import { PageOptions } from '../classes/page-options.class';
+import { QueryOptions } from '../../dto/query.dto';
+import { PageOptions } from '../../dto/page.dto';
 
 export interface ICommonController<T> {
 	createRecord(

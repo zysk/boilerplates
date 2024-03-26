@@ -1,7 +1,7 @@
 import { Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Master2 } from './masters2';
+import { Common2 } from './common2';
 
-export class Master extends Master2 {
+export class Common extends Common2 {
 	/**
 	 * Column : id
 	 */

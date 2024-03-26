@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { NodeEnvironment } from '../common/config';
+import { NodeEnvironment } from '../common/env-config';
 
 if (process.env.NODE_ENV == NodeEnvironment.Test) {
 	config({ path: '.env.test' });

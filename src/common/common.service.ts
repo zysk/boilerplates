@@ -10,8 +10,8 @@ import {
 	UpdateResult
 } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { PageOptions } from './utils/classes/page-options.class';
-import { QueryOptions } from './utils/classes/query-options.class';
+import { PageOptions } from './dto/page.dto';
+import { QueryOptions } from './dto/query.dto';
 import { ICommonService } from './utils/interfaces/common.interface';
 import {
 	ISuccess,

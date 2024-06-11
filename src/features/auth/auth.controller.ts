@@ -32,7 +32,7 @@ export class UserController extends CommonController<User> {
 	@Get()
 	@ApiDocUser()
 	@UseGuards(JwtAuthGuard)
-	get(): Promise<Response> {
+	get(): Promise<IResponse> {
 		return this.fetchAllRecords({}, true)
 	}
 }

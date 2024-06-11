@@ -13,7 +13,7 @@ export class AppController {
 		return this.appService.getHello()
 	}
 
-	@Get()
+	@Get('me')
 	@UseGuards(JwtAuthGuard)
 	getUser(@CurrentUser() user: ICurrentUser): ICurrentUser {
 		return user

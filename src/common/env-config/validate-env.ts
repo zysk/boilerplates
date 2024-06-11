@@ -1,20 +1,18 @@
-import { plainToInstance } from 'class-transformer';
-import { validateSync } from 'class-validator';
-import { EnvVariables } from './env-variables';
+import { plainToInstance } from 'class-transformer'
+import { validateSync } from 'class-validator'
+import { EnvVariables } from './env-variables'
 
 export function validateEnv(config: Record<string, unknown>): EnvVariables {
 	const validateConfig = plainToInstance(EnvVariables, config, {
 		enableImplicitConversion: true
-	});
+	})
 
 	const errors = validateSync(validateConfig, {
 		skipMissingProperties: false
-	});
+	})
 
 	if (errors.length) {
-		throw new Error(errors.toString());
+		throw new Error(errors.toString())
 	}
-	console.log('wokring');
-
-	return validateConfig;
+	return validateConfig
 }

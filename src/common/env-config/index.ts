@@ -1,2 +1,2 @@
-export * from './env-variables';
-export * from './validate-env';
+export * from './env-variables'
+export * from './validate-env'

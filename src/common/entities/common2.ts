@@ -1,4 +1,4 @@
-import { CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
 
 export class Common2 {
 	/**
@@ -9,7 +9,7 @@ export class Common2 {
 		type: 'timestamptz',
 		select: false
 	})
-	createdAt: Date;
+	createdAt?: Date
 
 	/**
 	 * Column : updatedAt
@@ -19,7 +19,7 @@ export class Common2 {
 		type: 'timestamptz',
 		select: false
 	})
-	updatedAt: Date;
+	updatedAt?: Date
 
 	/**
 	 * Column : deletedAt
@@ -29,5 +29,5 @@ export class Common2 {
 		type: 'timestamptz',
 		select: false
 	})
-	deletedAt: Date;
+	deletedAt?: Date
 }

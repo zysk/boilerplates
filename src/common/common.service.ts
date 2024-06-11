@@ -1,5 +1,5 @@
-import { HttpStatus } from '@nestjs/common';
-import { isEmpty } from 'class-validator';
+import { HttpStatus } from '@nestjs/common'
+import { isEmpty } from 'class-validator'
 import {
 	DeepPartial,
 	DeleteResult,
@@ -8,11 +8,11 @@ import {
 	FindOptionsOrder,
 	FindOptionsWhere,
 	UpdateResult
-} from 'typeorm';
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { PageOptions } from './dto/page.dto';
-import { QueryOptions } from './dto/query.dto';
-import { ICommonService } from './utils/interfaces/common.interface';
+} from 'typeorm'
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
+import { PageOptions } from './dto/page.dto'
+import { QueryOptions } from './dto/query.dto'
+import { ICommonService } from './utils/interfaces/common.interface'
 import {
 	ISuccess,
 	ISuccessResponse,
@@ -22,9 +22,9 @@ import {
 	IPaginatedResponse,
 	ISessionSuccessResponse,
 	ISessionErrorResponse
-} from './utils/interfaces/response.interface';
-import { TCommonService } from './utils/types/types';
-import { ErrorMessage, ResponseMessage } from './utils/consts/variables.const';
+} from './utils/interfaces/response.interface'
+import { TCommonService } from './utils/types/types'
+import { ErrorMessage, ResponseMessage } from './utils/consts/variables.const'
 
 /**
  * @class CommonService
@@ -33,14 +33,14 @@ export class CommonService<T> implements ICommonService<T> {
 	/**
 	 * Repository of derived class type
 	 */
-	protected repository: any;
+	protected repository: any
 
 	/**
 	 * @constructor CommonService
 	 * @param repository
 	 */
 	constructor(repository: any) {
-		this.repository = repository;
+		this.repository = repository
 	}
 
 	/**
@@ -56,17 +56,17 @@ export class CommonService<T> implements ICommonService<T> {
 		responseMsg?: string
 	): Promise<TCommonService | T> {
 		// try {
-		const dataToSave = await this.beforeCreate(createDto);
-		let result = await this.repository.createRecord(dataToSave);
-		await this.afterCreate(result);
+		const dataToSave = await this.beforeCreate(createDto)
+		let result = await this.repository.createRecord(dataToSave)
+		await this.afterCreate(result)
 		if (responseAsApi) {
 			result = {
 				statusCode: HttpStatus.CREATED,
 				message: responseMsg
-			};
-			return this.handleSuccess(result);
+			}
+			return this.handleSuccess(result)
 		}
-		return result;
+		return result
 		// } catch (error) {
 		//   return this.handleError(error);
 		// }
@@ -85,17 +85,17 @@ export class CommonService<T> implements ICommonService<T> {
 		responseMsg?: string
 	): Promise<TCommonService | T> {
 		// try {
-		const dataToSave = await this.beforeCreate(createDto);
-		let result = await this.repository.createBulkRecords(dataToSave);
-		await this.afterCreate(result);
+		const dataToSave = await this.beforeCreate(createDto)
+		let result = await this.repository.createBulkRecords(dataToSave)
+		await this.afterCreate(result)
 		if (responseAsApi) {
 			result = {
 				statusCode: HttpStatus.CREATED,
 				message: responseMsg
-			};
-			return this.handleSuccess(result);
+			}
+			return this.handleSuccess(result)
 		}
-		return result;
+		return result
 		// } catch (error) {
 		//   return this.handleError(error);
 		// }
@@ -114,12 +114,12 @@ export class CommonService<T> implements ICommonService<T> {
 		responseMsg?: string
 	): Promise<TCommonService | T> {
 		// try {
-		let result = await this.repository.fetchOneRecord(criteria);
+		let result = await this.repository.fetchOneRecord(criteria)
 		if (responseAsApi) {
-			result = { data: { ...result }, message: responseMsg };
-			return this.handleSuccess(result);
+			result = { data: { ...result }, message: responseMsg }
+			return this.handleSuccess(result)
 		}
-		return result;
+		return result
 		// } catch (error) {
 		//   return this.handleError(error);
 		// }
@@ -141,12 +141,12 @@ export class CommonService<T> implements ICommonService<T> {
 		responseMsg?: string
 	): Promise<TCommonService | Array<T>> {
 		// try {
-		let result = await this.repository.fetchAllRecords(criteria);
+		let result = await this.repository.fetchAllRecords(criteria)
 		if (responseAsApi) {
-			result = { data: [...result], message: responseMsg };
-			return this.handleSuccess(result);
+			result = { data: [...result], message: responseMsg }
+			return this.handleSuccess(result)
 		}
-		return result;
+		return result
 		// } catch (error) {
 		//   return this.handleError(error);
 		// }
@@ -170,19 +170,19 @@ export class CommonService<T> implements ICommonService<T> {
 	): Promise<TCommonService | Array<T>> {
 		// try {
 		if (!isEmpty(pageOptions)) {
-			const { skip, take } = this.queryOptions(pageOptions);
+			const { skip, take } = this.queryOptions(pageOptions)
 			criteria = {
 				...criteria,
 				skip,
 				take
-			};
+			}
 		}
 		const [result, totalCount] =
-			await this.repository.fetchAllRecordsWithCount(criteria);
-		const paginatedResult = this.paginate(result, totalCount, pageOptions);
+			await this.repository.fetchAllRecordsWithCount(criteria)
+		const paginatedResult = this.paginate(result, totalCount, pageOptions)
 		return responseAsApi
 			? this.handleSuccess(paginatedResult)
-			: { data: result, totalCount };
+			: { data: result, totalCount }
 		// } catch (error) {
 		//   return this.handleError(error);
 		// }
@@ -203,14 +203,14 @@ export class CommonService<T> implements ICommonService<T> {
 		responseMsg?: string
 	): Promise<TCommonService | UpdateResult> {
 		// try {
-		const dataToUpdate = await this.beforeUpdate(updateDto);
-		let result = this.repository.updateRecord(dataToUpdate, criteria);
-		await this.afterUpdate(updateDto);
+		const dataToUpdate = await this.beforeUpdate(updateDto)
+		let result = this.repository.updateRecord(dataToUpdate, criteria)
+		await this.afterUpdate(updateDto)
 		if (responseAsApi) {
-			result = { data: { ...result }, message: responseMsg };
-			return this.handleSuccess(result);
+			result = { data: { ...result }, message: responseMsg }
+			return this.handleSuccess(result)
 		}
-		return result;
+		return result
 		// } catch (error) {
 		//   return this.handleError(error);
 		// }
@@ -229,12 +229,12 @@ export class CommonService<T> implements ICommonService<T> {
 		responseMsg?: string
 	): Promise<TCommonService | UpdateResult> {
 		// try {
-		let result = this.repository.softDeleteRecord(criteria, responseAsApi);
+		let result = this.repository.softDeleteRecord(criteria, responseAsApi)
 		if (responseAsApi) {
-			result = { data: { ...result }, message: responseMsg };
-			return this.handleSuccess(result);
+			result = { data: { ...result }, message: responseMsg }
+			return this.handleSuccess(result)
 		}
-		return result;
+		return result
 		// } catch (error) {
 		//   return this.handleError(error);
 		// }
@@ -253,12 +253,12 @@ export class CommonService<T> implements ICommonService<T> {
 		responseMsg?: string
 	): Promise<TCommonService | DeleteResult> {
 		// try {
-		let result = this.repository.deleteRecord(criteria, responseAsApi);
+		let result = this.repository.deleteRecord(criteria, responseAsApi)
 		if (responseAsApi) {
-			result = { data: { ...result }, message: responseMsg };
-			return this.handleSuccess(result);
+			result = { data: { ...result }, message: responseMsg }
+			return this.handleSuccess(result)
 		}
-		return result;
+		return result
 		// } catch (error) {
 		//   return this.handleError(error);
 		// }
@@ -270,7 +270,7 @@ export class CommonService<T> implements ICommonService<T> {
 	 * @returns
 	 */
 	async beforeCreate(params?: any): Promise<any> {
-		return params;
+		return params
 	}
 
 	/**
@@ -279,7 +279,7 @@ export class CommonService<T> implements ICommonService<T> {
 	 * @returns
 	 */
 	async afterCreate(params?: any): Promise<any> {
-		return params;
+		return params
 	}
 
 	/**
@@ -288,7 +288,7 @@ export class CommonService<T> implements ICommonService<T> {
 	 * @returns
 	 */
 	async beforeUpdate(params?: any): Promise<any> {
-		return params;
+		return params
 	}
 
 	/**
@@ -297,7 +297,7 @@ export class CommonService<T> implements ICommonService<T> {
 	 * @returns
 	 */
 	async afterUpdate(params?: any): Promise<any> {
-		return params;
+		return params
 	}
 
 	/**
@@ -310,7 +310,7 @@ export class CommonService<T> implements ICommonService<T> {
 			statusCode: successRes?.statusCode || HttpStatus.OK,
 			message: successRes?.message || ResponseMessage.QUERY_SUCCESS,
 			result: successRes?.data || []
-		};
+		}
 	}
 
 	/**
@@ -326,7 +326,7 @@ export class CommonService<T> implements ICommonService<T> {
 				message: errorRes?.message || ErrorMessage.SOMETHING_WENT_WRONG
 				// error: errorRes,
 			}
-		};
+		}
 	}
 
 	/**
@@ -345,7 +345,7 @@ export class CommonService<T> implements ICommonService<T> {
 				sessionValue: session
 			},
 			responseBody: this.handleSuccess(successRes)
-		};
+		}
 	}
 
 	/**
@@ -364,7 +364,7 @@ export class CommonService<T> implements ICommonService<T> {
 				sessionValue: session
 			},
 			responseBody: this.handleError(errorRes)
-		};
+		}
 	}
 
 	/**
@@ -385,7 +385,7 @@ export class CommonService<T> implements ICommonService<T> {
 				message: message || ErrorMessage.SOMETHING_WENT_WRONG,
 				validationErrors: validationErrors
 			}
-		};
+		}
 	}
 
 	/**
@@ -394,12 +394,12 @@ export class CommonService<T> implements ICommonService<T> {
 	 * @returns
 	 */
 	queryOptions(pageOptions?: PageOptions): QueryOptions {
-		const page = pageOptions?.page || 1;
-		const take = pageOptions?.take || 10;
+		const page = pageOptions?.page || 1
+		const take = pageOptions?.take || 10
 		return {
 			skip: Number.isNaN((page - 1) * take) ? 0 : (page - 1) * take,
 			take
-		};
+		}
 	}
 
 	/**
@@ -414,14 +414,14 @@ export class CommonService<T> implements ICommonService<T> {
 		totalRecords: number,
 		pageOptions?: PageOptions
 	): IPaginatedResponse {
-		const page = pageOptions?.page || 1;
-		const take = pageOptions?.take || 10;
+		const page = pageOptions?.page || 1
+		const take = pageOptions?.take || 10
 		// Last page
-		const lastPage = Math.ceil(totalRecords / take);
+		const lastPage = Math.ceil(totalRecords / take)
 		// Next page
-		const nextPage = page + 1 > lastPage ? null : page + 1;
+		const nextPage = page + 1 > lastPage ? null : page + 1
 		// Previous page
-		const prevPage = page - 1 < 1 ? null : page - 1;
+		const prevPage = page - 1 < 1 ? null : page - 1
 		return {
 			data: records,
 			totalRecords,
@@ -429,7 +429,7 @@ export class CommonService<T> implements ICommonService<T> {
 			nextPage,
 			prevPage,
 			lastPage
-		};
+		}
 	}
 
 	/**
@@ -440,12 +440,12 @@ export class CommonService<T> implements ICommonService<T> {
 	 */
 	async groupBy(arr: Array<any>, property: string): Promise<typeof arr> {
 		return arr.reduce((acc, obj) => {
-			const key = obj[property];
+			const key = obj[property]
 			if (!acc[key]) {
-				acc[key] = [];
+				acc[key] = []
 			}
-			acc[key].push(obj);
-			return acc;
-		}, {});
+			acc[key].push(obj)
+			return acc
+		}, {})
 	}
 }

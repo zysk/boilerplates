@@ -2,7 +2,7 @@ import {
 	registerDecorator,
 	ValidationArguments,
 	ValidationOptions
-} from 'class-validator';
+} from 'class-validator'
 
 /**
  * @method IsEqualTo
@@ -23,18 +23,18 @@ export function IsEqualTo(
 			options: validationOptions,
 			validator: {
 				validate(value: any, args: ValidationArguments) {
-					const [relatedPropertyName] = args['constraints'];
+					const [relatedPropertyName] = args['constraints']
 					const relatedValue = (args['object'] as any)[
 						relatedPropertyName
-					];
-					return value === relatedValue;
+					]
+					return value === relatedValue
 				},
 				defaultMessage(args: ValidationArguments) {
-					const [relatedPropertyName] = args['constraints'];
-					return `"${args['property']}" must match "${relatedPropertyName}" exactly`;
+					const [relatedPropertyName] = args['constraints']
+					return `"${args['property']}" must match "${relatedPropertyName}" exactly`
 				}
 			}
-		});
+		})
 }
 
 /**
@@ -56,16 +56,16 @@ export function IsLessThenOrEqual(
 			options: validationOptions,
 			validator: {
 				validate(value: any, args: ValidationArguments) {
-					const [relatedPropertyName] = args['constraints'];
+					const [relatedPropertyName] = args['constraints']
 					const relatedValue = (args['object'] as any)[
 						relatedPropertyName
-					];
-					return value <= relatedValue;
+					]
+					return value <= relatedValue
 				},
 				defaultMessage(args: ValidationArguments) {
-					const [relatedPropertyName] = args['constraints'];
-					return `"${args['property']}" should be less then "${relatedPropertyName}"`;
+					const [relatedPropertyName] = args['constraints']
+					return `"${args['property']}" should be less then "${relatedPropertyName}"`
 				}
 			}
-		});
+		})
 }

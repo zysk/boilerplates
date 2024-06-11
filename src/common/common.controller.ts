@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller } from '@nestjs/common'
 import {
 	DeepPartial,
 	FindOneOptions,
@@ -7,11 +7,11 @@ import {
 	UpdateResult,
 	DeleteResult,
 	FindOptionsOrder
-} from 'typeorm';
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { PageOptions } from './dto/page.dto';
-import { ICommonController } from './utils/interfaces/common.interface';
-import { TCommonController } from './utils/types/types';
+} from 'typeorm'
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
+import { PageOptions } from './dto/page.dto'
+import { ICommonController } from './utils/interfaces/common.interface'
+import { TCommonController } from './utils/types/types'
 
 /**
  * @class CommonController
@@ -21,14 +21,14 @@ export class CommonController<T> implements ICommonController<T> {
 	/**
 	 * Service of derived class type
 	 */
-	protected service: any;
+	protected service: any
 
 	/**
 	 * @constructor CommonController
 	 * @param service
 	 */
 	constructor(service: any) {
-		this.service = service;
+		this.service = service
 	}
 
 	/**
@@ -43,7 +43,7 @@ export class CommonController<T> implements ICommonController<T> {
 		responseAsApi = false,
 		responseMsg?: string
 	): Promise<TCommonController | T> {
-		return this.service.createRecord(createDto, responseAsApi, responseMsg);
+		return this.service.createRecord(createDto, responseAsApi, responseMsg)
 	}
 
 	/**
@@ -58,11 +58,7 @@ export class CommonController<T> implements ICommonController<T> {
 		responseAsApi = false,
 		responseMsg?: string
 	): Promise<TCommonController | T> {
-		return this.service.fetchOneRecord(
-			criteria,
-			responseAsApi,
-			responseMsg
-		);
+		return this.service.fetchOneRecord(criteria, responseAsApi, responseMsg)
 	}
 
 	/**
@@ -84,7 +80,7 @@ export class CommonController<T> implements ICommonController<T> {
 			criteria,
 			responseAsApi,
 			responseMsg
-		);
+		)
 	}
 
 	/**
@@ -107,7 +103,7 @@ export class CommonController<T> implements ICommonController<T> {
 			criteria,
 			responseAsApi,
 			pageOptions
-		);
+		)
 	}
 
 	/**
@@ -129,7 +125,7 @@ export class CommonController<T> implements ICommonController<T> {
 			criteria,
 			responseAsApi,
 			responseMsg
-		);
+		)
 	}
 
 	/**
@@ -148,7 +144,7 @@ export class CommonController<T> implements ICommonController<T> {
 			criteria,
 			responseAsApi,
 			responseMsg
-		);
+		)
 	}
 
 	/**
@@ -163,6 +159,6 @@ export class CommonController<T> implements ICommonController<T> {
 		criteria?: FindOptionsWhere<T> | FindOptionsOrder<T>,
 		responseMsg?: string
 	): Promise<TCommonController | DeleteResult> {
-		return this.service.deleteRecord(criteria, responseAsApi, responseMsg);
+		return this.service.deleteRecord(criteria, responseAsApi, responseMsg)
 	}
 }

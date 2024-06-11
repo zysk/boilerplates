@@ -6,9 +6,9 @@ import {
 	FindOptionsWhere,
 	Repository,
 	UpdateResult
-} from 'typeorm';
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ICommonRepository } from './utils/interfaces/common.interface';
+} from 'typeorm'
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
+import { ICommonRepository } from './utils/interfaces/common.interface'
 
 /**
  * @class CommonRepository
@@ -17,14 +17,14 @@ export class CommonRepository<T> implements ICommonRepository<T> {
 	/**
 	 * Repository of derived class type
 	 */
-	private repository: Repository<T>;
+	private repository: Repository<T>
 
 	/**
 	 * @constructor CommonRepository
 	 * @param repository
 	 */
 	constructor(repository: Repository<T>) {
-		this.repository = repository;
+		this.repository = repository
 	}
 
 	/**
@@ -33,8 +33,8 @@ export class CommonRepository<T> implements ICommonRepository<T> {
 	 * @returns
 	 */
 	async createRecord(createDto: DeepPartial<T>): Promise<T> {
-		const record = this.repository.create(createDto);
-		return this.repository.save(record);
+		const record = this.repository.create(createDto)
+		return this.repository.save(record)
 	}
 
 	/**
@@ -43,7 +43,7 @@ export class CommonRepository<T> implements ICommonRepository<T> {
 	 * @returns
 	 */
 	async fetchOneRecord(criteria: FindOneOptions<T>): Promise<T> {
-		return this.repository.findOne(criteria);
+		return this.repository.findOne(criteria)
 	}
 
 	/**
@@ -52,7 +52,7 @@ export class CommonRepository<T> implements ICommonRepository<T> {
 	 * @returns
 	 */
 	async fetchAllRecords(criteria: FindManyOptions<T>): Promise<Array<T>> {
-		return this.repository.find(criteria);
+		return this.repository.find(criteria)
 	}
 
 	/**
@@ -61,7 +61,7 @@ export class CommonRepository<T> implements ICommonRepository<T> {
 	 * @returns
 	 */
 	async fetchAllRecordsWithCount(criteria: any): Promise<any> {
-		return this.repository.findAndCount(criteria);
+		return this.repository.findAndCount(criteria)
 	}
 
 	/**
@@ -70,7 +70,7 @@ export class CommonRepository<T> implements ICommonRepository<T> {
 	 * @returns
 	 */
 	async fetchCount(criteria: any): Promise<any> {
-		return this.repository.count(criteria);
+		return this.repository.count(criteria)
 	}
 
 	/**
@@ -83,7 +83,7 @@ export class CommonRepository<T> implements ICommonRepository<T> {
 		updateDto: QueryDeepPartialEntity<T>,
 		criteria: FindOptionsWhere<T>
 	): Promise<UpdateResult> {
-		return this.repository.update(criteria, updateDto);
+		return this.repository.update(criteria, updateDto)
 	}
 
 	/**
@@ -94,7 +94,7 @@ export class CommonRepository<T> implements ICommonRepository<T> {
 	async softDeleteRecord(
 		criteria: FindOptionsWhere<T>
 	): Promise<UpdateResult> {
-		return this.repository.softDelete(criteria);
+		return this.repository.softDelete(criteria)
 	}
 
 	/**
@@ -103,7 +103,7 @@ export class CommonRepository<T> implements ICommonRepository<T> {
 	 * @returns
 	 */
 	async deleteRecord(criteria: FindOptionsWhere<T>): Promise<DeleteResult> {
-		return this.repository.delete(criteria);
+		return this.repository.delete(criteria)
 	}
 
 	/**
@@ -112,6 +112,6 @@ export class CommonRepository<T> implements ICommonRepository<T> {
 	 * @returns
 	 */
 	async createBulkRecords(createDtos: DeepPartial<T>[]): Promise<T[]> {
-		return this.repository.save(createDtos);
+		return this.repository.save(createDtos)
 	}
 }

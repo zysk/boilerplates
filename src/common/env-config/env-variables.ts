@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import { Type } from 'class-transformer'
 import {
 	IsNumber,
 	IsEnum,
@@ -6,7 +6,7 @@ import {
 	IsBoolean,
 	IsOptional,
 	IsNotEmpty
-} from 'class-validator';
+} from 'class-validator'
 
 export enum NodeEnvironment {
 	Dev = 'dev',
@@ -16,39 +16,92 @@ export enum NodeEnvironment {
 
 export class EnvVariables {
 	@IsNumber()
-	PORT: number;
+	PORT: number
 
 	@IsEnum(NodeEnvironment)
 	@IsNotEmpty()
-	NODE_ENV: NodeEnvironment;
+	NODE_ENV: NodeEnvironment
 
 	@IsString()
 	@IsNotEmpty()
-	DB_HOST: string;
+	DB_HOST: string
 
 	@IsString()
 	@IsNotEmpty()
-	DB_USER: string;
+	DB_USER: string
 
 	@IsString()
 	@IsNotEmpty()
-	DB_PASS: string;
+	DB_PASS: string
 
 	@IsString()
 	@IsNotEmpty()
-	DB_NAME: string;
+	DB_NAME: string
 
 	@IsBoolean()
 	@IsOptional()
 	@Type(() => Boolean)
-	DB_LOGGING = false;
+	DB_LOGGING = false
 
 	@IsBoolean()
 	@IsOptional()
 	@Type(() => Boolean)
-	DB_SSL = true;
+	DB_SSL = true
+
+	@IsBoolean()
+	@IsNotEmpty()
+	@Type(() => Boolean)
+	DB_SYNC: boolean = false
 
 	@IsNotEmpty()
 	@IsString()
-	BASE_PATH: string;
+	JWT_SECRET: string
+
+	@IsNotEmpty()
+	@IsString()
+	JWT_EXPIRE: string
+
+	@IsNotEmpty()
+	@IsString()
+	REDIS_HOST: string
+
+	@IsNotEmpty()
+	@IsString()
+	REDIS_PORT: string
+
+	@IsNotEmpty()
+	@IsString()
+	REDIS_PASSWORD: string
+
+	@IsNotEmpty()
+	@IsString()
+	MAX_JOB_WITHIN_DURATION: string
+
+	@IsNotEmpty()
+	@IsString()
+	QUEUE_DURATION: string
+
+	@IsNotEmpty()
+	@IsString()
+	JOB_DELAY: string
+
+	@IsNotEmpty()
+	@IsString()
+	SMTP_SERVER: string
+
+	@IsNotEmpty()
+	@IsNumber()
+	SMTP_PORT: number
+
+	@IsNotEmpty()
+	@IsString()
+	SMTP_USER: string
+
+	@IsNotEmpty()
+	@IsString()
+	SMTP_PASSWORD: string
+
+	@IsNotEmpty()
+	@IsString()
+	ADMIN_MAIL: string
 }

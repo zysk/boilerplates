@@ -1,14 +1,13 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import dataSource from './database/data-source';
-import { ConfigService } from '@nestjs/config';
-import { ValidationPipe } from '@nestjs/common';
-import { ValidationError } from 'class-validator';
-import { ValidationException } from './common/exceptions/validation.exception';
-import { CustomExceptionFilter } from './common/exceptions/custom.exception';
-import { TransformInterceptor } from './common/interceptors/transform.interceptor';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { EnvVariables, NodeEnvironment } from './common/env-config';
+import { NestFactory } from '@nestjs/core'
+import { AppModule } from './app.module'
+import { ConfigService } from '@nestjs/config'
+import { Logger, ValidationPipe, VersioningType } from '@nestjs/common'
+import { ValidationError } from 'class-validator'
+import { ValidationException } from './common/exceptions/validation.exception'
+import { CustomExceptionFilter } from './common/exceptions/custom.exception'
+import { TransformInterceptor } from './common/interceptors/transform.interceptor'
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+import { EnvVariables, NodeEnvironment } from './common/env-config'
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
@@ -20,13 +19,18 @@ async function bootstrap() {
 
 		/* Whether to use underlying platform body parser */
 		bodyParser: true
-	});
+	})
 
-	const configService = app.get(ConfigService<EnvVariables, true>);
+	const configService = app.get(ConfigService<EnvVariables, true>)
+	const logger = new Logger(AppModule.name)
 
-	app.setGlobalPrefix(configService.get<string>('BASE_PATH'));
+	/* Enables App versioning */
+	app.enableVersioning({
+		type: VersioningType.URI,
+		defaultVersion: '1'
+	})
 
-	/*Global Pipes, Interceptors and Filters*/
+	/* Global Pipes, Interceptors and Filters */
 	app.useGlobalPipes(
 		new ValidationPipe({
 			transform: true,
@@ -43,13 +47,13 @@ async function bootstrap() {
 					}))
 				)
 		})
-	);
+	)
+	/* Global Interceptor */
+	app.useGlobalInterceptors(new TransformInterceptor())
 
-	app.useGlobalInterceptors(new TransformInterceptor());
+	app.useGlobalFilters(new CustomExceptionFilter())
 
-	app.useGlobalFilters(new CustomExceptionFilter());
-
-	/*Swagger configuration*/
+	/* Swagger configuration */
 	if (
 		configService.get('NODE_ENV', { infer: true }) !== NodeEnvironment.Prod
 	) {
@@ -58,31 +62,19 @@ async function bootstrap() {
 			.setDescription('Swagger based API documentation for App name.')
 			.setVersion('1.0')
 			.addBearerAuth()
-			.build();
+			.build()
 
-		const document = SwaggerModule.createDocument(
-			app as any,
-			swaggerConfig
-		);
+		const document = SwaggerModule.createDocument(app as any, swaggerConfig)
 
-		SwaggerModule.setup('api/v1/api-doc', app as any, document);
+		SwaggerModule.setup('/v1/api-doc', app as any, document)
 	}
-	// Data Seeding connection
-	dataSource
-		.initialize()
-		.then(async () => {
-			//Example
-			/* await  (dataSource) */
 
-			/* Add the the seeder config here */
-			dataSource.destroy();
-		})
-		.catch((error) => {
-			console.error(error);
-			dataSource.destroy();
-		});
-	const port = configService.get('PORT', { infer: true }) || 3000;
+	const port = configService.get('PORT', { infer: true }) || 3000
 
-	await app.listen(port);
+	logger.debug(
+		`Application launched on port ${port} in ${new Date()} timezone.`
+	)
+
+	await app.listen(port)
 }
-bootstrap();
+bootstrap()

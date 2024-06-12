@@ -1,73 +1,121 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Welcome to Your NestJS Boilerplate!
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Congratulations on successfully cloning the application! Here are the necessary steps to get started:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Setting Up Your Remote Repository
 
-## Description
+1. **Change your remote repository URL:**
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+    ```bash
+    git remote set-url origin <NEW_URL>  # Replace <NEW_URL> with your repository's URL.
+    ```
 
-## Installation
+2. **Verify the change:**
+    ```bash
+    git remote -v
+    ```
 
-```bash
-$ npm install
-```
+## Environment Configuration
 
-## Running the app
+-   **Update Application Environment:**
+    Copy `.env.default` to `.env` and update accordingly:
 
-```bash
-# development
-$ npm run start
+    -   `NODE_ENV`: Accepts `dev`, `test`, `prod` (default is `dev` for development).
+    -   `TZ`: The timezone is set to UTC, and the application will default to this timezone.
 
-# watch mode
-$ npm run start:dev
+-   **Environment Variables:**
+    -   All variables from `.env` are validated in `common/env-config/env-variables.ts`. Add your new environment variables here.
 
-# production mode
-$ npm run start:prod
-```
+## File Structure and Features
 
-## Test
+### Common Module
 
-```bash
-# unit tests
-$ npm run test
+-   **Common Entities:**
 
-# e2e tests
-$ npm run test:e2e
+    -   Common entities can extend to other entities for most commonly used columns.
 
-# test coverage
-$ npm run test:cov
-```
+-   **Exceptions:**
 
-## Support
+    -   A global exception handler is included to manage common scenarios with custom messages.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+-   **Interceptors:**
 
-## Stay in touch
+    -   _Explanation coming soon..._
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+-   **Middlewares:**
 
-## License
+    -   A request logger middleware logs all incoming HTTP requests.
 
-Nest is [MIT licensed](LICENSE).
+-   **Utility Files:**
+    -   **Authentication:** Includes commonly used OTP and password generator functions.
+    -   **Constants:** Maintains all application constants and enums.
+    -   **Cryptography:** Functions for encryption, decryption, and commonly used hashing.
+    -   **Validators:** _Explanation coming soon..._
+    -   **Common Module:** Extendable modules with basic CRUD functionalities for further expansion.
+
+### Database
+
+-   **Datasource Configuration:**
+    Establishes the database connection and includes options for:
+    -   **Migration and Seeding:**
+        -   Generate migration: `npm run migration:generate`
+        -   Run migration: `npm run migration:run`
+        -   Drop schema: `npm run schema:drop`
+        -   Run seeder: `npm run seeder`
+        -   Synchronization: `DB_SYNC=true` (enables database synchronization)
+        -   Logging: `DB_LOGGING=true` (enables database logging)
+
+### Authentication
+
+-   **Passort JWT Authentication:**
+    Includes basic guards, strategies, and decorators to verify JWTs in the auth header and attach user details to the request.
+-   **Current User Decorator:** Retrieves user details from the request.
+
+### Shared Modules
+
+-   **Email Module:** Configures nodemailer for email services.
+-   **Queue Module:** Configures a Redis bull-based queuing system.
+
+## Documentation
+
+-   **Swagger:** Swagger documentation has been added to enhance API understanding and usage.
+
+## Running the Application
+
+-   **Development:** `npm run start:dev`
+-   **Production:** `npm run start`
+-   **REPL:** `npm run start:repl` - Allows access to the application through CLI.
+
+## Code Formatting and Standards
+
+-   **Prettier and ESLint:** Sets up general code formatting rules.
+-   **Husky:** Adds hooks for post-checkout to format code post-commit; commits are made only if all checks pass.
+-   **Commitlint:** Ensures commit messages follow a specific format.
+    -   **Allowed Prefixes:** `build | chore | ci | docs | feat | fix | perf | refactor | revert | style | test`
+    -   **Example Format:** `git commit -m "fix: commit message here"`
+
+## Best Practices
+
+-   **Naming Conventions:**
+    -   Entities and tables should be named in singular form.
+    -   Module names should be singular and separated by hyphens (`-`).
+    -   Entity modules should be within a features module.
+-   **Modularization:**
+    -   Modularize the application based on features (e.g., auth, onboarding).
+-   **Dependency Injection:**
+    -   In order to inject repository files only import the module into other module
+    -   Injectable classes should be added to only one provider if needed import the module to other module where-ever needed
+-   **Repository and Service Management:**
+    -   Export only repositories; services should not be exported.
+-   **API Best Practices:**
+    -   For detailed API design practices, refer to [FreeCodeCamp's REST API Best Practices](https://www.freecodecamp.org/news/rest-api-best-practices-rest-endpoint-design-examples/).
+
+## Reference
+
+-   **TestmySkills:**: [Test My Skills](https://github.com/zysk/TestMySkills-API)
+
+## Contact
+
+-   **Arijit**:*arijit.saha@zysk.tech*
+-   **Vikas**: *vikas.m@zysk.tech*
+-   **Rajkumar**: *rajkumar.murugesan@zysk.tech*

@@ -1,12 +1,15 @@
 import { config } from 'dotenv'
 import { DataSource, DataSourceOptions } from 'typeorm'
 import { NodeEnvironment } from '../common/env-config'
+import { Logger } from '@nestjs/common'
 
 if (process.env.NODE_ENV == NodeEnvironment.Test) {
 	config({ path: '.env.test' })
 } else {
 	config()
 }
+
+const logger = new Logger('Database')
 
 export const dataSourceOptions: DataSourceOptions = {
 	type: 'postgres',
@@ -27,4 +30,13 @@ export const dataSourceOptions: DataSourceOptions = {
 }
 
 const dataSource = new DataSource(dataSourceOptions)
+dataSource
+	.initialize()
+	.then(() => {
+		logger.debug('📅 Connection to database successful..')
+	})
+	.catch((err) => {
+		logger.error('💣 Error during database connection:', err)
+	})
+
 export default dataSource

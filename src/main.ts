@@ -22,6 +22,7 @@ async function bootstrap() {
 	})
 
 	const configService = app.get(ConfigService<EnvVariables, true>)
+
 	const logger = new Logger(AppModule.name)
 
 	/* Enables App versioning */
@@ -30,7 +31,7 @@ async function bootstrap() {
 		defaultVersion: '1'
 	})
 
-	/* Global Pipes, Interceptors and Filters */
+	/* Global Pipes */
 	app.useGlobalPipes(
 		new ValidationPipe({
 			transform: true,
@@ -51,6 +52,7 @@ async function bootstrap() {
 	/* Global Interceptor */
 	app.useGlobalInterceptors(new TransformInterceptor())
 
+	/* Global Filter */
 	app.useGlobalFilters(new CustomExceptionFilter())
 
 	/* Swagger configuration */
@@ -69,7 +71,7 @@ async function bootstrap() {
 		SwaggerModule.setup('/v1/api-doc', app as any, document)
 	}
 
-	const port = configService.get('PORT', { infer: true }) || 3000
+	const port = configService.get<number>('PORT', { infer: true }) || 3000
 
 	logger.debug(
 		`Application launched on port ${port} in ${new Date()} timezone.`

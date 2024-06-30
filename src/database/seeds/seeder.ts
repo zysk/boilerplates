@@ -10,8 +10,11 @@ export const importSeeders = async (dataSource: DataSource) => {
 		.initialize()
 		.then(async () => {
 			await seedUser(dataSource)
-			// import your other seeders here
-			//...
+			/*
+			...
+			 import your other seeders here
+			...
+			*/
 			dataSource.destroy()
 			logger.warn('🌳 Seeders successfully executed...')
 		})

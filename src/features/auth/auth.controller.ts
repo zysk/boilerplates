@@ -26,7 +26,7 @@ export class UserController extends CommonController<User> {
 	}
 
 	/**
-	 * @description example get query
+	 * @description Example get query
 	 * @returns
 	 */
 	@Get()

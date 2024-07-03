@@ -5,7 +5,6 @@ import {
 	DeleteResult,
 	FindManyOptions,
 	FindOneOptions,
-	FindOptionsOrder,
 	FindOptionsWhere,
 	UpdateResult
 } from 'typeorm'
@@ -29,17 +28,17 @@ import { ErrorMessage, ResponseMessage } from './utils/consts/variables.const'
 /**
  * @class CommonService
  */
-export class CommonService<T> implements ICommonService<T> {
+export class CommonService<T = any> implements ICommonService<T> {
 	/**
 	 * Repository of derived class type
 	 */
-	protected repository: any
+	protected repository
 
 	/**
 	 * @constructor CommonService
 	 * @param repository
 	 */
-	constructor(repository: any) {
+	constructor(repository) {
 		this.repository = repository
 	}
 
@@ -55,10 +54,7 @@ export class CommonService<T> implements ICommonService<T> {
 		responseAsApi = false,
 		responseMsg?: string
 	): Promise<TCommonService | T> {
-		// try {
-		const dataToSave = await this.beforeCreate(createDto)
-		let result = await this.repository.createRecord(dataToSave)
-		await this.afterCreate(result)
+		let result = await this.repository.createRecord(createDto)
 		if (responseAsApi) {
 			result = {
 				statusCode: HttpStatus.CREATED,
@@ -67,9 +63,6 @@ export class CommonService<T> implements ICommonService<T> {
 			return this.handleSuccess(result)
 		}
 		return result
-		// } catch (error) {
-		//   return this.handleError(error);
-		// }
 	}
 
 	/**
@@ -80,14 +73,11 @@ export class CommonService<T> implements ICommonService<T> {
 	 * @returns
 	 */
 	async createBulkRecords(
-		createDto: DeepPartial<T>,
+		createDto: DeepPartial<T>[],
 		responseAsApi = false,
 		responseMsg?: string
-	): Promise<TCommonService | T> {
-		// try {
-		const dataToSave = await this.beforeCreate(createDto)
-		let result = await this.repository.createBulkRecords(dataToSave)
-		await this.afterCreate(result)
+	): Promise<TCommonService | T[]> {
+		let result = await this.repository.createBulkRecords(createDto)
 		if (responseAsApi) {
 			result = {
 				statusCode: HttpStatus.CREATED,
@@ -96,9 +86,6 @@ export class CommonService<T> implements ICommonService<T> {
 			return this.handleSuccess(result)
 		}
 		return result
-		// } catch (error) {
-		//   return this.handleError(error);
-		// }
 	}
 
 	/**
@@ -109,20 +96,16 @@ export class CommonService<T> implements ICommonService<T> {
 	 * @returns
 	 */
 	async fetchOneRecord(
-		criteria: FindOptionsWhere<T> | FindOneOptions<T> | FindOptionsOrder<T>,
+		criteria: FindOneOptions<T>,
 		responseAsApi = false,
 		responseMsg?: string
 	): Promise<TCommonService | T> {
-		// try {
 		let result = await this.repository.fetchOneRecord(criteria)
 		if (responseAsApi) {
 			result = { data: { ...result }, message: responseMsg }
 			return this.handleSuccess(result)
 		}
 		return result
-		// } catch (error) {
-		//   return this.handleError(error);
-		// }
 	}
 
 	/**
@@ -133,23 +116,16 @@ export class CommonService<T> implements ICommonService<T> {
 	 * @returns
 	 */
 	async fetchAllRecords(
-		criteria:
-			| FindOptionsWhere<T>
-			| FindManyOptions<T>
-			| FindOptionsOrder<T>,
+		criteria: FindManyOptions<T>,
 		responseAsApi = false,
 		responseMsg?: string
-	): Promise<TCommonService | Array<T>> {
-		// try {
+	): Promise<TCommonService | T[]> {
 		let result = await this.repository.fetchAllRecords(criteria)
 		if (responseAsApi) {
 			result = { data: [...result], message: responseMsg }
 			return this.handleSuccess(result)
 		}
 		return result
-		// } catch (error) {
-		//   return this.handleError(error);
-		// }
 	}
 
 	/**
@@ -160,15 +136,10 @@ export class CommonService<T> implements ICommonService<T> {
 	 * @returns
 	 */
 	async fetchAllRecordsWithPagination(
-		criteria:
-			| FindOptionsWhere<T>
-			| FindOneOptions<T>
-			| FindManyOptions<T>
-			| FindOptionsOrder<T>,
+		criteria: FindManyOptions<T>,
 		responseAsApi = false,
 		pageOptions?: PageOptions
-	): Promise<TCommonService | Array<T>> {
-		// try {
+	): Promise<TCommonService | T[]> {
 		if (!isEmpty(pageOptions)) {
 			const { skip, take } = this.queryOptions(pageOptions)
 			criteria = {
@@ -183,9 +154,6 @@ export class CommonService<T> implements ICommonService<T> {
 		return responseAsApi
 			? this.handleSuccess(paginatedResult)
 			: { data: result, totalCount }
-		// } catch (error) {
-		//   return this.handleError(error);
-		// }
 	}
 
 	/**
@@ -198,22 +166,16 @@ export class CommonService<T> implements ICommonService<T> {
 	 */
 	async updateRecord(
 		updateDto: QueryDeepPartialEntity<T>,
-		criteria: FindOptionsWhere<T> | FindOptionsOrder<T>,
+		criteria: FindOptionsWhere<T>,
 		responseAsApi = false,
 		responseMsg?: string
 	): Promise<TCommonService | UpdateResult> {
-		// try {
-		const dataToUpdate = await this.beforeUpdate(updateDto)
-		let result = this.repository.updateRecord(dataToUpdate, criteria)
-		await this.afterUpdate(updateDto)
+		let result = this.repository.updateRecord(updateDto, criteria)
 		if (responseAsApi) {
 			result = { data: { ...result }, message: responseMsg }
 			return this.handleSuccess(result)
 		}
 		return result
-		// } catch (error) {
-		//   return this.handleError(error);
-		// }
 	}
 
 	/**
@@ -225,19 +187,15 @@ export class CommonService<T> implements ICommonService<T> {
 	 */
 	async softDeleteRecord(
 		responseAsApi = false,
-		criteria?: FindOptionsWhere<T> | FindOptionsOrder<T>,
+		criteria?: FindOptionsWhere<T>,
 		responseMsg?: string
 	): Promise<TCommonService | UpdateResult> {
-		// try {
 		let result = this.repository.softDeleteRecord(criteria, responseAsApi)
 		if (responseAsApi) {
 			result = { data: { ...result }, message: responseMsg }
 			return this.handleSuccess(result)
 		}
 		return result
-		// } catch (error) {
-		//   return this.handleError(error);
-		// }
 	}
 
 	/**
@@ -249,55 +207,15 @@ export class CommonService<T> implements ICommonService<T> {
 	 */
 	async deleteRecord(
 		responseAsApi = false,
-		criteria?: FindOptionsWhere<T> | FindOptionsOrder<T>,
+		criteria?: FindOptionsWhere<T>,
 		responseMsg?: string
 	): Promise<TCommonService | DeleteResult> {
-		// try {
 		let result = this.repository.deleteRecord(criteria, responseAsApi)
 		if (responseAsApi) {
 			result = { data: { ...result }, message: responseMsg }
 			return this.handleSuccess(result)
 		}
 		return result
-		// } catch (error) {
-		//   return this.handleError(error);
-		// }
-	}
-
-	/**
-	 * @description Function to be called before save
-	 * @param params Params
-	 * @returns
-	 */
-	async beforeCreate(params?: any): Promise<any> {
-		return params
-	}
-
-	/**
-	 * @description Function to be called after save
-	 * @param params Params
-	 * @returns
-	 */
-	async afterCreate(params?: any): Promise<any> {
-		return params
-	}
-
-	/**
-	 * @description Function to be called before save
-	 * @param params Params
-	 * @returns
-	 */
-	async beforeUpdate(params?: any): Promise<any> {
-		return params
-	}
-
-	/**
-	 * @description Function to be called after save
-	 * @param params Params
-	 * @returns
-	 */
-	async afterUpdate(params?: any): Promise<any> {
-		return params
 	}
 
 	/**
@@ -377,7 +295,7 @@ export class CommonService<T> implements ICommonService<T> {
 	static handleValidationError(
 		message: string,
 		statusCode?: HttpStatus,
-		validationErrors?: Array<IValidationErrors>
+		validationErrors?: IValidationErrors[]
 	): IErrorResponse {
 		return {
 			...{
@@ -410,7 +328,7 @@ export class CommonService<T> implements ICommonService<T> {
 	 * @returns
 	 */
 	paginate(
-		records: Array<Record<string, unknown | never>>,
+		records: Record<string, unknown | never>[],
 		totalRecords: number,
 		pageOptions?: PageOptions
 	): IPaginatedResponse {
@@ -438,7 +356,7 @@ export class CommonService<T> implements ICommonService<T> {
 	 * @param property Based on what groupBy should be done
 	 * @returns
 	 */
-	async groupBy(arr: Array<any>, property: string): Promise<typeof arr> {
+	async groupBy(arr: any[], property: string): Promise<typeof arr> {
 		return arr.reduce((acc, obj) => {
 			const key = obj[property]
 			if (!acc[key]) {

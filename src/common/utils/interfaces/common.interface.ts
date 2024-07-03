@@ -5,100 +5,120 @@ import {
 	ISuccess,
 	ISuccessResponse
 } from './response.interface'
-import { DeleteResult, UpdateResult } from 'typeorm'
+import {
+	DeepPartial,
+	DeleteResult,
+	FindManyOptions,
+	FindOneOptions,
+	FindOptionsWhere,
+	UpdateResult
+} from 'typeorm'
 import { TCommonController, TCommonService } from '../types/types'
-import { QueryOptions } from '../../dto/query.dto'
-import { PageOptions } from '../../dto/page.dto'
+import { PageOptions } from 'src/common/dto/page.dto'
+import { QueryOptions } from 'src/common/dto/query.dto'
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 export interface ICommonController<T> {
 	createRecord(
-		createDto: unknown,
+		createDto: DeepPartial<T>,
 		responseAsApi: boolean,
 		responseMsg?: string
 	): Promise<TCommonController | T>
 	fetchOneRecord(
-		criteria: any,
+		criteria: FindOneOptions<T>,
 		responseAsApi: boolean,
 		responseMsg?: string
 	): Promise<TCommonController | T>
 	fetchAllRecords(
-		criteria: any,
+		criteria: FindManyOptions<T>,
 		responseAsApi: boolean,
 		responseMsg?: string
-	): Promise<TCommonController | Array<T>>
+	): Promise<TCommonController | T[]>
 	fetchAllRecordsWithPagination(
-		criteria: any,
+		criteria: FindOneOptions<T>,
 		responseAsApi: boolean
-	): Promise<TCommonController | T | Array<T>>
+	): Promise<TCommonController | T | T[]>
 	updateRecord(
-		updateDto: unknown,
-		criteria: any,
+		updateDto: QueryDeepPartialEntity<T>,
+		criteria: FindOptionsWhere<T>,
 		responseAsApi: boolean,
 		responseMsg?: string
 	): Promise<TCommonController | UpdateResult>
 	softDeleteRecord(
 		responseAsApi: boolean,
-		criteria: any,
+		criteria: FindOptionsWhere<T>,
 		responseMsg?: string
 	): Promise<TCommonController | UpdateResult>
 	deleteRecord(
 		responseAsApi: boolean,
-		criteria: any,
+		criteria: FindOptionsWhere<T>,
 		responseMsg?: string
 	): Promise<TCommonController | DeleteResult>
 }
 export interface ICommonService<T> {
 	createRecord(
-		createDto: unknown,
+		createDto: DeepPartial<T>,
+		responseAsApi: boolean,
+		responseMsg?: string
+	): Promise<TCommonService | T | T[]>
+	createBulkRecords(
+		createDto: DeepPartial<T>[],
 		responseAsApi: boolean,
 		responseMsg?: string
 	): Promise<TCommonService | T>
 	fetchOneRecord(
-		criteria: any,
+		criteria: FindOneOptions<T>,
 		responseAsApi: boolean,
 		responseMsg?: string
 	): Promise<TCommonService | T>
 	fetchAllRecords(
-		criteria: any,
+		criteria: FindOneOptions<T>,
 		responseAsApi: boolean,
 		responseMsg?: string
-	): Promise<TCommonService | Array<T>>
+	): Promise<TCommonService | T[]>
 	fetchAllRecordsWithPagination(
-		criteria: any,
+		criteria: FindOneOptions<T>,
 		responseAsApi: boolean
-	): Promise<TCommonService | T | Array<T>>
+	): Promise<TCommonService | T | T[]>
 	updateRecord(
-		updateDto: unknown,
-		criteria: any,
+		updateDto: QueryDeepPartialEntity<T>,
+		criteria: FindOptionsWhere<T>,
 		responseAsApi: boolean,
 		responseMsg?: string
 	): Promise<TCommonService | UpdateResult>
 	softDeleteRecord(
 		responseAsApi: boolean,
-		criteria: any,
+		criteria: FindOptionsWhere<T>,
 		responseMsg?: string
 	): Promise<TCommonService | UpdateResult>
 	deleteRecord(
 		responseAsApi: boolean,
-		criteria: any,
+		criteria: FindOptionsWhere<T>,
 		responseMsg?: string
 	): Promise<TCommonService | DeleteResult>
 	handleSuccess(successRes?: ISuccess): ISuccessResponse
 	handleError(errorRes?: IError): IErrorResponse
 	queryOptions(pageOptions: PageOptions): QueryOptions
 	paginate(
-		records: Array<Record<string, unknown | never>>,
+		records: Record<string, unknown | never>[],
 		totalRecords: number,
 		pageOptions: PageOptions
 	): IPaginatedResponse
-	groupBy(arr: Array<any>, property: string): Promise<typeof arr>
+	groupBy(arr: any[], property: string): Promise<typeof arr>
 }
 export interface ICommonRepository<T> {
-	createRecord(createDto: any): Promise<T | Array<T> | unknown>
-	fetchOneRecord(criteria: any): Promise<T | Array<T> | unknown>
-	fetchAllRecords(criteria: any): Promise<T | Array<T> | any>
-	fetchAllRecordsWithCount(criteria: any): Promise<T | Array<T> | unknown>
-	updateRecord(updateDto: any, criteria: any): Promise<T | Array<T> | unknown>
-	softDeleteRecord(criteria: any): Promise<T | Array<T> | unknown>
-	deleteRecord(criteria: any): Promise<T | Array<T> | unknown>
+	createRecord(createDto: DeepPartial<T>): Promise<T | T[]>
+	fetchOneRecord(criteria: FindOneOptions<T>): Promise<T | null>
+	fetchAllRecords(criteria: FindManyOptions<T>): Promise<T[]>
+	fetchAllRecordsWithCount(
+		criteria: FindManyOptions<T>
+	): Promise<[T[], number]>
+	fetchCount(criteria: FindManyOptions<T>): Promise<number>
+	updateRecord(
+		updateDto: QueryDeepPartialEntity<T>,
+		criteria: FindOptionsWhere<T>
+	): Promise<UpdateResult>
+	softDeleteRecord(criteria: FindOptionsWhere<T>): Promise<UpdateResult>
+	deleteRecord(criteria: FindOptionsWhere<T>): Promise<DeleteResult>
+	createBulkRecords(createDto: DeepPartial<T>[]): Promise<T[]>
 }

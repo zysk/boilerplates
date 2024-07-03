@@ -13,7 +13,7 @@ import { ICommonRepository } from './utils/interfaces/common.interface'
 /**
  * @class CommonRepository
  */
-export class CommonRepository<T> implements ICommonRepository<T> {
+export class CommonRepository<T = any> implements ICommonRepository<T> {
 	/**
 	 * Repository of derived class type
 	 */
@@ -42,7 +42,7 @@ export class CommonRepository<T> implements ICommonRepository<T> {
 	 * @param criteria Conditions to apply
 	 * @returns
 	 */
-	async fetchOneRecord(criteria: FindOneOptions<T>): Promise<T> {
+	async fetchOneRecord(criteria: FindOneOptions<T>): Promise<T | null> {
 		return this.repository.findOne(criteria)
 	}
 
@@ -51,7 +51,7 @@ export class CommonRepository<T> implements ICommonRepository<T> {
 	 * @param criteria Conditions to apply
 	 * @returns
 	 */
-	async fetchAllRecords(criteria: FindManyOptions<T>): Promise<Array<T>> {
+	async fetchAllRecords(criteria: FindManyOptions<T>): Promise<T[]> {
 		return this.repository.find(criteria)
 	}
 
@@ -60,7 +60,9 @@ export class CommonRepository<T> implements ICommonRepository<T> {
 	 * @param criteria Conditions to apply
 	 * @returns
 	 */
-	async fetchAllRecordsWithCount(criteria: any): Promise<any> {
+	async fetchAllRecordsWithCount(
+		criteria: FindManyOptions<T>
+	): Promise<[T[], number]> {
 		return this.repository.findAndCount(criteria)
 	}
 
@@ -69,7 +71,7 @@ export class CommonRepository<T> implements ICommonRepository<T> {
 	 * @param criteria Conditions to apply
 	 * @returns
 	 */
-	async fetchCount(criteria: any): Promise<any> {
+	async fetchCount(criteria: FindManyOptions<T>): Promise<number> {
 		return this.repository.count(criteria)
 	}
 
@@ -111,7 +113,7 @@ export class CommonRepository<T> implements ICommonRepository<T> {
 	 * @param criteria Array of Data to insert
 	 * @returns
 	 */
-	async createBulkRecords(createDtos: DeepPartial<T>[]): Promise<T[]> {
-		return this.repository.save(createDtos)
+	async createBulkRecords(createDto: DeepPartial<T>[]): Promise<T[]> {
+		return this.repository.save(createDto)
 	}
 }

@@ -5,8 +5,7 @@ import {
 	FindManyOptions,
 	FindOptionsWhere,
 	UpdateResult,
-	DeleteResult,
-	FindOptionsOrder
+	DeleteResult
 } from 'typeorm'
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 import { PageOptions } from './dto/page.dto'
@@ -17,17 +16,17 @@ import { TCommonController } from './utils/types/types'
  * @class CommonController
  */
 @Controller()
-export class CommonController<T> implements ICommonController<T> {
+export class CommonController<T = any> implements ICommonController<T> {
 	/**
 	 * Service of derived class type
 	 */
-	protected service: any
+	protected service
 
 	/**
 	 * @constructor CommonController
 	 * @param service
 	 */
-	constructor(service: any) {
+	constructor(service) {
 		this.service = service
 	}
 
@@ -54,7 +53,7 @@ export class CommonController<T> implements ICommonController<T> {
 	 * @returns
 	 */
 	async fetchOneRecord(
-		criteria: FindOptionsWhere<T> | FindOneOptions<T> | FindOptionsOrder<T>,
+		criteria: FindOneOptions<T>,
 		responseAsApi = false,
 		responseMsg?: string
 	): Promise<TCommonController | T> {
@@ -69,13 +68,10 @@ export class CommonController<T> implements ICommonController<T> {
 	 * @returns
 	 */
 	async fetchAllRecords(
-		criteria:
-			| FindOptionsWhere<T>
-			| FindManyOptions<T>
-			| FindOptionsOrder<T>,
+		criteria: FindManyOptions<T>,
 		responseAsApi = false,
 		responseMsg?: string
-	): Promise<TCommonController | Array<T>> {
+	): Promise<TCommonController | T[]> {
 		return this.service.fetchAllRecords(
 			criteria,
 			responseAsApi,
@@ -91,14 +87,10 @@ export class CommonController<T> implements ICommonController<T> {
 	 * @returns
 	 */
 	async fetchAllRecordsWithPagination(
-		criteria:
-			| FindOptionsWhere<T>
-			| FindOneOptions<T>
-			| FindManyOptions<T>
-			| FindOptionsOrder<T>,
+		criteria: FindManyOptions<T>,
 		responseAsApi = false,
 		pageOptions?: PageOptions
-	): Promise<TCommonController | Array<T>> {
+	): Promise<TCommonController | T[]> {
 		return this.service.fetchAllRecordsWithPagination(
 			criteria,
 			responseAsApi,
@@ -116,7 +108,7 @@ export class CommonController<T> implements ICommonController<T> {
 	 */
 	async updateRecord(
 		updateDto: QueryDeepPartialEntity<T>,
-		criteria: FindOptionsWhere<T> | FindOptionsOrder<T>,
+		criteria: FindOptionsWhere<T>,
 		responseAsApi = false,
 		responseMsg?: string
 	): Promise<TCommonController | UpdateResult> {
@@ -137,7 +129,7 @@ export class CommonController<T> implements ICommonController<T> {
 	 */
 	async softDeleteRecord(
 		responseAsApi = false,
-		criteria?: FindOptionsWhere<T> | FindOptionsOrder<T>,
+		criteria?: FindOptionsWhere<T>,
 		responseMsg?: string
 	): Promise<TCommonController | UpdateResult> {
 		return this.service.softDeleteRecord(
@@ -156,7 +148,7 @@ export class CommonController<T> implements ICommonController<T> {
 	 */
 	async deleteRecord(
 		responseAsApi = false,
-		criteria?: FindOptionsWhere<T> | FindOptionsOrder<T>,
+		criteria?: FindOptionsWhere<T>,
 		responseMsg?: string
 	): Promise<TCommonController | DeleteResult> {
 		return this.service.deleteRecord(criteria, responseAsApi, responseMsg)

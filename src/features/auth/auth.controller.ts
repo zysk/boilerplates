@@ -4,7 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { CommonController } from '../../common/common.controller'
 import { User } from './entities/user.entity'
 import { ApiDocUser } from '../../shared/swagger/user-doc.decorator'
-import { IResponse } from '../../common/utils/types/types'
+import { IResponse } from '../../common/types/types'
 import { JwtAuthGuard } from './guard/jwt-auth.guard'
 
 @Controller('user')

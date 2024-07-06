@@ -3,7 +3,7 @@ import { randomBytes } from 'crypto'
 function randomBytesFunction(length: number, characters: string): string {
 	let randomString: string = ''
 
-	const buffer: any = randomBytes(length)
+	const buffer = randomBytes(length)
 	for (let i = 0; i < length; i++) {
 		randomString += characters[buffer[i] % characters.length]
 	}

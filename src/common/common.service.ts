@@ -11,7 +11,7 @@ import {
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 import { PageOptions } from './dto/page.dto'
 import { QueryOptions } from './dto/query.dto'
-import { ICommonService } from './utils/interfaces/common.interface'
+import { ICommonService } from './interfaces/common.interface'
 import {
 	ISuccess,
 	ISuccessResponse,
@@ -21,8 +21,8 @@ import {
 	IPaginatedResponse,
 	ISessionSuccessResponse,
 	ISessionErrorResponse
-} from './utils/interfaces/response.interface'
-import { TCommonService } from './utils/types/types'
+} from './interfaces/response.interface'
+import { TCommonService } from './types/types'
 import { ErrorMessage, ResponseMessage } from './utils/consts/variables.const'
 
 /**

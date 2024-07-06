@@ -15,16 +15,38 @@ export enum NodeEnvironment {
 }
 
 export class EnvVariables {
-	@IsNumber()
-	PORT: number
+	/**
+	 * Environment
+	 */
+	@IsString()
+	@IsNotEmpty()
+	APP_NAME: string
 
 	@IsEnum(NodeEnvironment)
 	@IsNotEmpty()
-	NODE_ENV: NodeEnvironment
+	NODE_ENV: NodeEnvironment = NodeEnvironment.Dev
+
+	/**
+	 * System
+	 */
+	@IsNumber()
+	@IsNotEmpty()
+	PORT: number = 3000
 
 	@IsString()
 	@IsNotEmpty()
+	TZ: string = 'UTC'
+
+	/**
+	 * Database
+	 */
+	@IsString()
+	@IsNotEmpty()
 	DB_HOST: string
+
+	@IsNumber()
+	@IsNotEmpty()
+	DB_PORT: number
 
 	@IsString()
 	@IsNotEmpty()
@@ -53,6 +75,9 @@ export class EnvVariables {
 	@Type(() => Boolean)
 	DB_SYNC: boolean = false
 
+	/**
+	 * JWT
+	 */
 	@IsNotEmpty()
 	@IsString()
 	JWT_SECRET: string
@@ -61,30 +86,36 @@ export class EnvVariables {
 	@IsString()
 	JWT_EXPIRE: string
 
+	/**
+	 * Redis Bull
+	 */
 	@IsNotEmpty()
 	@IsString()
 	REDIS_HOST: string
 
 	@IsNotEmpty()
-	@IsString()
-	REDIS_PORT: string
+	@IsNumber()
+	REDIS_PORT: number
 
 	@IsNotEmpty()
 	@IsString()
 	REDIS_PASSWORD: string
 
 	@IsNotEmpty()
-	@IsString()
-	MAX_JOB_WITHIN_DURATION: string
+	@IsNumber()
+	MAX_JOB_WITHIN_DURATION: number
 
 	@IsNotEmpty()
-	@IsString()
-	QUEUE_DURATION: string
+	@IsNumber()
+	QUEUE_DURATION: number
 
 	@IsNotEmpty()
-	@IsString()
-	JOB_DELAY: string
+	@IsNumber()
+	JOB_DELAY: number
 
+	/**
+	 * SMTP
+	 */
 	@IsNotEmpty()
 	@IsString()
 	SMTP_SERVER: string

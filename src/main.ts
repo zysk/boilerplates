@@ -8,9 +8,12 @@ import { CustomExceptionFilter } from './common/exceptions/custom.exception'
 import { TransformInterceptor } from './common/interceptors/transform.interceptor'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { EnvVariables, NodeEnvironment } from './common/env-config'
+import { NestExpressApplication } from '@nestjs/platform-express'
+import { join } from 'path'
+import { SwaggerDescription } from './common/utils/consts/variables.const'
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule, {
+	const app = await NestFactory.create<NestExpressApplication>(AppModule, {
 		/* Enables request from given domains and types */
 		cors: {
 			origin: '*',
@@ -31,6 +34,9 @@ async function bootstrap() {
 		defaultVersion: '1'
 	})
 
+	/* Static home page */
+	app.useStaticAssets(join(process.cwd(), '/src/assets/views'))
+
 	/* Global Pipes */
 	app.useGlobalPipes(
 		new ValidationPipe({
@@ -41,7 +47,7 @@ async function bootstrap() {
 
 			exceptionFactory: (errors: ValidationError[] = []) =>
 				new ValidationException(
-					errors.map((error: any) => ({
+					errors.map((error) => ({
 						field: error['property'],
 						value: error['value'],
 						messages: error['constraints']
@@ -60,21 +66,24 @@ async function bootstrap() {
 		configService.get('NODE_ENV', { infer: true }) !== NodeEnvironment.Prod
 	) {
 		const swaggerConfig = new DocumentBuilder()
-			.setTitle('App name')
-			.setDescription('Swagger based API documentation for App name.')
+			.setTitle(configService.get('APP_NAME'))
+			.setDescription(SwaggerDescription)
 			.setVersion('1.0')
 			.addBearerAuth()
 			.build()
 
-		const document = SwaggerModule.createDocument(app as any, swaggerConfig)
+		const document = SwaggerModule.createDocument(app, swaggerConfig)
 
-		SwaggerModule.setup('/v1/api-doc', app as any, document)
+		SwaggerModule.setup('/v1/api-doc', app, document, {
+			customSiteTitle: 'Swagger Docs'
+		})
 	}
 
+	/* Port */
 	const port = configService.get<number>('PORT', { infer: true }) || 3000
 
 	logger.debug(
-		`Application launched on port ${port} in ${new Date()} timezone.`
+		`🚀 Application launched on port ${port} in ${new Date()} timezone.`
 	)
 
 	await app.listen(port)

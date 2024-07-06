@@ -9,8 +9,8 @@ import {
 } from 'typeorm'
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 import { PageOptions } from './dto/page.dto'
-import { ICommonController } from './utils/interfaces/common.interface'
-import { TCommonController } from './utils/types/types'
+import { ICommonController } from './interfaces/common.interface'
+import { TCommonController } from './types/types'
 
 /**
  * @class CommonController

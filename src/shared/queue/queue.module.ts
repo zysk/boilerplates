@@ -39,7 +39,9 @@ import { MailProducer } from './providers/email.provider'
 		}),
 		BullModule.registerQueue(
 			{ name: QueuePattern.MAIL }
-			// { name: QueuePattern.UPLOAD }
+			/**
+			 * Add your queues here
+			 */
 		)
 	],
 	providers: [MailConsumer, MailProducer],

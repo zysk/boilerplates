@@ -6,6 +6,8 @@ export const ResponseMessage = {
 	QUERY_SUCCESS: 'Query success'
 }
 
+export const SwaggerDescription = `Swagger based API documentation for App name`
+
 export const ErrorMessage = {
 	VALID_FIELD_REQUIRED: (field: string) =>
 		`Please enter valid ${field.toLowerCase()}`,

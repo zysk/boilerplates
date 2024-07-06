@@ -92,7 +92,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
 				break
 			default:
 				statusCode = HttpStatus.FAILED_DEPENDENCY
-				message = (exception as any)['message']
+				message = exception['message']
 		}
 		response
 			.status(statusCode)

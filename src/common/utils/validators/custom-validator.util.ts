@@ -14,7 +14,7 @@ export function IsEqualTo(
 	property: string,
 	validationOptions?: ValidationOptions
 ) {
-	return (object: any, propertyName: string) =>
+	return (object, propertyName: string) =>
 		registerDecorator({
 			name: 'isEqualTo',
 			target: object.constructor,
@@ -22,11 +22,9 @@ export function IsEqualTo(
 			constraints: [property],
 			options: validationOptions,
 			validator: {
-				validate(value: any, args: ValidationArguments) {
+				validate(value, args: ValidationArguments) {
 					const [relatedPropertyName] = args['constraints']
-					const relatedValue = (args['object'] as any)[
-						relatedPropertyName
-					]
+					const relatedValue = args['object'][relatedPropertyName]
 					return value === relatedValue
 				},
 				defaultMessage(args: ValidationArguments) {
@@ -47,7 +45,7 @@ export function IsLessThenOrEqual(
 	property: string,
 	validationOptions?: ValidationOptions
 ) {
-	return (object: any, propertyName: string) =>
+	return (object, propertyName: string) =>
 		registerDecorator({
 			name: 'isLessThenOrEqual',
 			target: object.constructor,
@@ -55,11 +53,9 @@ export function IsLessThenOrEqual(
 			constraints: [property],
 			options: validationOptions,
 			validator: {
-				validate(value: any, args: ValidationArguments) {
+				validate(value, args: ValidationArguments) {
 					const [relatedPropertyName] = args['constraints']
-					const relatedValue = (args['object'] as any)[
-						relatedPropertyName
-					]
+					const relatedValue = args['object'][relatedPropertyName]
 					return value <= relatedValue
 				},
 				defaultMessage(args: ValidationArguments) {

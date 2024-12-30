@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { BullModule } from '@nestjs/bull'
 import { ConfigService } from '@nestjs/config'
-import { NodeEnvironment } from '../../common/env-config'
+import { NodeEnvironment } from '../../common/env-config/env-variables'
 import { QueuePattern } from './enum/queue.enum'
 import { MailConsumer } from './consumers/email.consumer'
 import { MailProducer } from './providers/email.provider'

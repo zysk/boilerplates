@@ -1,7 +1,6 @@
 import { DataSource, DataSourceOptions } from 'typeorm'
-import { NodeEnvironment } from '../common/env-config'
 import { Logger } from '@nestjs/common'
-import { AwsSecretsService } from '../common/secrets/aws-secrets.service'
+import { AwsSecretsService } from '../common/env-config/aws-secrets'
 
 const logger = new Logger('Database')
 
@@ -13,10 +12,7 @@ async function getDataSourceOptions(secrets: any): Promise<DataSourceOptions> {
 		username: secrets.DB_USER as string,
 		password: secrets.DB_PASS as string,
 		database: secrets.DB_NAME as string,
-		entities:
-			process.env.NODE_ENV == NodeEnvironment.Test
-				? ['src/features/**/*.entity.ts']
-				: ['dist/features/**/*.entity.js'],
+		entities: ['dist/features/**/*.entity.js'],
 		migrations: ['dist/database/migrations/*.js'],
 		logging: secrets.DB_LOGGING === 'true',
 		ssl: secrets.DB_SSL === 'true',

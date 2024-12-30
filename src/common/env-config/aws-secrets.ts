@@ -1,10 +1,8 @@
-import { Injectable } from '@nestjs/common'
 import {
 	SecretsManagerClient,
 	GetSecretValueCommand
 } from '@aws-sdk/client-secrets-manager'
 
-@Injectable()
 export class AwsSecretsService {
 	private client: SecretsManagerClient
 

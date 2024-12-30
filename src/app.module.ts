@@ -7,12 +7,12 @@ import {
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { validateEnv } from './common/env-config'
+import { validateEnv } from './common/env-config/validate-env'
 import { ConfigModule } from '@nestjs/config'
 import { RequestLoggerMiddleware } from './common/middlewares/request-logger.middleware'
 import { FeaturesModule } from './features/features.module'
 import { SharedModule } from './shared/shared.module'
-import { AwsSecretsService } from './common/secrets/aws-secrets.service'
+import { AwsSecretsService } from './common/env-config/aws-secrets'
 import { getDataSourceOptions } from './database/data-source'
 
 async function fetchSecrets() {

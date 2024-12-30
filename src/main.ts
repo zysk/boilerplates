@@ -7,7 +7,10 @@ import { ValidationException } from './common/exceptions/validation.exception'
 import { CustomExceptionFilter } from './common/exceptions/custom.exception'
 import { TransformInterceptor } from './common/interceptors/transform.interceptor'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { EnvVariables, NodeEnvironment } from './common/env-config'
+import {
+	EnvVariables,
+	NodeEnvironment
+} from './common/env-config/env-variables'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { join } from 'path'
 import { SwaggerDescription } from './common/utils/consts/variables.const'

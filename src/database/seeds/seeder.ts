@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm'
 import { Logger } from '@nestjs/common'
-import dataSource from '../data-source'
+import { dataSource } from '../data-source'
 import { seedUser } from './user.seeder'
 
 export const importSeeders = async (dataSource: DataSource) => {
@@ -23,4 +23,4 @@ export const importSeeders = async (dataSource: DataSource) => {
 			dataSource.destroy()
 		})
 }
-importSeeders(dataSource)
+dataSource().then(importSeeders)

@@ -12,7 +12,11 @@ export function validateEnv(config: Record<string, unknown>): EnvVariables {
 	})
 
 	if (errors.length) {
-		throw new Error(errors.toString())
+		throw new Error(
+			` 🤫 Environment validation failed: ${errors
+				.map((err) => Object.values(err.constraints || {}).join(', '))
+				.join('; ')}`
+		)
 	}
 	return validateConfig
 }

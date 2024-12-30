@@ -112,27 +112,4 @@ export class EnvVariables {
 	@IsNotEmpty()
 	@IsNumber()
 	JOB_DELAY: number
-
-	/**
-	 * SMTP
-	 */
-	@IsNotEmpty()
-	@IsString()
-	SMTP_SERVER: string
-
-	@IsNotEmpty()
-	@IsNumber()
-	SMTP_PORT: number
-
-	@IsNotEmpty()
-	@IsString()
-	SMTP_USER: string
-
-	@IsNotEmpty()
-	@IsString()
-	SMTP_PASSWORD: string
-
-	@IsNotEmpty()
-	@IsString()
-	ADMIN_MAIL: string
 }

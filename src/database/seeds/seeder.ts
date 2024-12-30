@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { DataSource } from 'typeorm'
 import { Logger } from '@nestjs/common'
 import { dataSource } from '../data-source'

@@ -4,14 +4,14 @@ import { Type } from 'class-transformer'
 
 export class PageOptions {
 	@IsOptional()
-	@ApiPropertyOptional()
+	@ApiPropertyOptional({ default: 1 })
 	@IsInt()
 	@Type(() => Number)
-	page: number
+	page: number = 1
 
 	@IsOptional()
-	@ApiPropertyOptional()
+	@ApiPropertyOptional({ default: 10 })
 	@IsInt()
 	@Type(() => Number)
-	take: number
+	take: number = 10
 }

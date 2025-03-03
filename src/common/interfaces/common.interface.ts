@@ -18,6 +18,11 @@ import { PageOptions } from 'src/common/dto/page.dto'
 import { QueryOptions } from 'src/common/dto/query.dto'
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
+/**
+ * @interface ICommonController
+ * Generic interface for common controller operations.
+ * @template T - The entity type.
+ */
 export interface ICommonController<T> {
 	createRecord(
 		createDto: DeepPartial<T>,
@@ -55,6 +60,12 @@ export interface ICommonController<T> {
 		responseMsg?: string
 	): Promise<TCommonController | DeleteResult>
 }
+
+/**
+ * @interface ICommonService
+ * Generic interface for common service operations.
+ * @template T - The entity type.
+ */
 export interface ICommonService<T> {
 	createRecord(
 		createDto: DeepPartial<T>,
@@ -106,6 +117,12 @@ export interface ICommonService<T> {
 	): IPaginatedResponse
 	groupBy(arr: any[], property: string): Promise<typeof arr>
 }
+
+/**
+ * @interface ICommonRepository
+ * Generic interface for common repository operations.
+ * @template T - The entity type.
+ */
 export interface ICommonRepository<T> {
 	createRecord(createDto: DeepPartial<T>): Promise<T | T[]>
 	fetchOneRecord(criteria: FindOneOptions<T>): Promise<T | null>

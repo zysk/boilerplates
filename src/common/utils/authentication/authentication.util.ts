@@ -1,5 +1,12 @@
 import { randomBytes } from 'crypto'
 
+const OTP_CHARS: string = '0123456789'
+const UPPER_CASE: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const LOWER_CASE: string = 'abcdefghijklmnopqrstuvwxyz'
+const SPECIAL_CHARACTER: string = '!@#$%^&'
+const NUMBERS: string = '0123456789'
+const ALL_CHARACTERS = UPPER_CASE + NUMBERS + SPECIAL_CHARACTER + LOWER_CASE
+
 function randomBytesFunction(length: number, characters: string): string {
 	let randomString: string = ''
 
@@ -12,33 +19,31 @@ function randomBytesFunction(length: number, characters: string): string {
 }
 
 /**
- * @description function to generate numeric OTP
+ * @function randomString
+ * @description Generate a random string of specified length from the given character set
+ * @param length
+ * @param chars
+ * @returns
+ */
+function randomString(length: number, chars: string): string {
+	return randomBytesFunction(length, chars)
+}
+
+/**
+ * @function generateOtp
+ * @description Generate a numeric OTP of specified length
  * @param otpLength
  * @returns
  */
 export function generateOtp(otpLength: number = 4): string {
-	const otpChars: string = '0123456789'
-
-	let otp: string = randomBytesFunction(otpLength, otpChars)
-
-	otp = '1234' // hardcoded for testing and development
-	return otp
+	return randomString(otpLength, OTP_CHARS)
 }
 
 /**
  * @function generateRandomPassword
- * @description generate Alphanumeric password
+ * @description Generate an alphanumeric password
  * @returns
  */
-export async function generateRandomPassword() {
-	const upperCase: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-	const lowerCase: string = 'abcdefghijklmnopqrstuvwxyz'
-	const specialCharacter: string = '!@#$%^&'
-	const numbers: string = '0123456789'
-
-	const allCharacters = upperCase + numbers + specialCharacter + lowerCase
-
-	const randomPassword: string = randomBytesFunction(8, allCharacters)
-
-	return randomPassword
+export function generateRandomPassword(passwordLength = 8): string {
+	return randomString(passwordLength, ALL_CHARACTERS)
 }

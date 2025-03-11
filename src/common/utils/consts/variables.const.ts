@@ -16,7 +16,10 @@ export const ErrorMessage = {
 	RECORD_ALREADY_EXIST: 'Record already exist',
 	UNAUTHORIZED_ACCESS: 'Unauthorized Access',
 	UNAUTHORIZED_OPERATION: 'Operation not permitted',
-	UNIQUE_KEY_VIOLATED: 'duplicate key value violates unique constraint'
+	UNIQUE_KEY_VIOLATED: 'duplicate key value violates unique constraint',
+	INTERNAL_SERVER_ERROR: 'Internal Server Error',
+	CONFLICT: 'Conflict',
+	SERVICE_UNAVAILABLE: 'Service Unavailable'
 }
 
 export const EmailMessage = {

@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import * as nodemailer from 'nodemailer'
 import { EmailMessage } from '../../common/utils/consts/variables.const'
+import { generateHelloEmailTemplate } from './templates/email-templates'
 
 @Injectable()
 export class EmailService {
@@ -20,11 +21,12 @@ export class EmailService {
 
 	async sendTestEmail(email: string, firstName: string) {
 		try {
+			const { subject, body } = generateHelloEmailTemplate(firstName)
 			await this.transporter.sendMail({
 				from: this.configService.get<string>('ADMIN_MAIL'),
 				to: email,
-				subject: 'subject',
-				html: `<p>Hello ${firstName}</p>`
+				subject: subject,
+				html: body
 			})
 		} catch (error) {
 			throw new HttpException(

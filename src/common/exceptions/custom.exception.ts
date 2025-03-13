@@ -89,7 +89,14 @@ export class CustomExceptionFilter implements ExceptionFilter {
 				break
 			case ForbiddenException:
 				statusCode = (exception as ForbiddenException).getStatus()
-				message = ErrorMessage.UNAUTHORIZED_OPERATION
+				const forbiddenResponse = (
+					exception as ForbiddenException
+				).getResponse()
+				message =
+					typeof forbiddenResponse === 'string'
+						? forbiddenResponse
+						: (forbiddenResponse as any)?.message ||
+							ErrorMessage.UNAUTHORIZED_OPERATION
 				break
 			case NotAcceptableException:
 				statusCode = (exception as NotAcceptableException).getStatus()

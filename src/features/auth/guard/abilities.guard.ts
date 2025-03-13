@@ -42,11 +42,7 @@ export class AbilitiesGuard implements CanActivate {
 				)
 				const denialReason =
 					relevantRule?.reason || 'Access denied for this action'
-				throw new ForbiddenException({
-					statusCode: 403,
-					message: denialReason,
-					error: 'Forbidden'
-				})
+				throw new ForbiddenException(denialReason)
 			}
 		}
 		return true

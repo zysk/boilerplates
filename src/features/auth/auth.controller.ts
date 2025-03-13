@@ -45,7 +45,7 @@ export class UserController extends CommonController<User> {
 	@Get()
 	@ApiDocUser()
 	@UseGuards(JwtAuthGuard, AbilitiesGuard)
-	@CheckAbilities({ action: Action.Read, subject: User })
+	@CheckAbilities({ action: Action.Read, subject: User }) //Note: Only admin can access the users
 	get(): Promise<IResponse> {
 		return this.fetchAllRecords({}, true)
 	}

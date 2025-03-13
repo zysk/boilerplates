@@ -116,23 +116,23 @@ export class EnvVariables {
 	/**
 	 * SMTP
 	 */
-	// @IsNotEmpty()
-	// @IsString()
-	// SMTP_SERVER: string
+	@IsNotEmpty()
+	@IsString()
+	SMTP_SERVER: string
 
-	// @IsNotEmpty()
-	// @IsNumber()
-	// SMTP_PORT: number
+	@IsNotEmpty()
+	@IsNumber()
+	SMTP_PORT: number
 
-	// @IsNotEmpty()
-	// @IsString()
-	// SMTP_USER: string
+	@IsNotEmpty()
+	@IsString()
+	SMTP_USER: string
 
-	// @IsNotEmpty()
-	// @IsString()
-	// SMTP_PASSWORD: string
+	@IsNotEmpty()
+	@IsString()
+	SMTP_PASSWORD: string
 
-	// @IsNotEmpty()
-	// @IsString()
-	// ADMIN_MAIL: string
+	@IsNotEmpty()
+	@IsString()
+	ADMIN_MAIL: string
 }

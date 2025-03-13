@@ -55,6 +55,7 @@
     "bull": "^4.12.9",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
     "eslint-plugin-security": "^3.0.1",
     "husky": "^9.0.11",
@@ -65,7 +66,9 @@
     "pg": "^8.11.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.20"
+    "slugify": "^1.6.6",
+    "typeorm": "^0.3.20",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.2.1",

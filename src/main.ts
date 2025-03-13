@@ -49,9 +49,9 @@ async function bootstrap() {
 			exceptionFactory: (errors: ValidationError[] = []) =>
 				new ValidationException(
 					errors.map((error) => ({
-						field: error['property'],
-						value: error['value'],
-						messages: error['constraints']
+						field: error.property,
+						value: error.value,
+						messages: Object.values(error.constraints)
 					}))
 				)
 		})

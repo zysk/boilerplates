@@ -11,13 +11,16 @@ export const SwaggerDescription = `Swagger-based API documentation for App Name`
 
 export const ErrorMessage = {
 	VALID_FIELD_REQUIRED: (field: string) =>
-		`Please enter a valid ${field.toLowerCase()}.`,
-	SOMETHING_WENT_WRONG: 'Something went wrong.',
-	TOO_MANY_REQUESTS: 'Too many requests. Please try again in a minute.',
-	RECORD_ALREADY_EXISTS: 'Record already exists.',
-	UNAUTHORIZED_ACCESS: 'Unauthorized access.',
-	UNAUTHORIZED_OPERATION: 'Operation not permitted.',
-	UNIQUE_KEY_VIOLATION: 'Duplicate key value violates unique constraint.'
+		`Please enter valid ${field.toLowerCase()}`,
+	SOMETHING_WENT_WRONG: 'Something went wrong',
+	TOO_MANY_REQUESTS: 'Too Many Requests. Please try after a minute!',
+	RECORD_ALREADY_EXIST: 'Record already exist',
+	UNAUTHORIZED_ACCESS: 'Unauthorized Access',
+	UNAUTHORIZED_OPERATION: 'Operation not permitted',
+	UNIQUE_KEY_VIOLATED: 'duplicate key value violates unique constraint',
+	INTERNAL_SERVER_ERROR: 'Internal Server Error',
+	CONFLICT: 'Conflict',
+	SERVICE_UNAVAILABLE: 'Service Unavailable'
 }
 
 export const EmailMessage = {

@@ -21,8 +21,17 @@ import { CommonService } from '../common.service'
 import { ValidationException } from './validation.exception'
 import { ErrorMessage } from '../utils/consts/variables.const'
 
+/**
+ * Custom exception filter to handle various types of exceptions and format the response accordingly.
+ */
+
 @Catch()
 export class CustomExceptionFilter implements ExceptionFilter {
+	/**
+	 * Method to catch and handle exceptions.
+	 * @param {unknown} exception - The exception thrown.
+	 * @param {ArgumentsHost} host - The arguments host.
+	 */
 	catch(exception: unknown, host: ArgumentsHost) {
 		const ctx = host.switchToHttp()
 		const response = ctx.getResponse<Response>()
@@ -62,10 +71,10 @@ export class CustomExceptionFilter implements ExceptionFilter {
 				statusCode = HttpStatus.UNPROCESSABLE_ENTITY
 				if (
 					(exception as QueryFailedError)['message'].includes(
-						ErrorMessage.UNIQUE_KEY_VIOLATION
+						ErrorMessage.UNIQUE_KEY_VIOLATED
 					)
 				) {
-					message = ErrorMessage.RECORD_ALREADY_EXISTS
+					message = ErrorMessage.RECORD_ALREADY_EXIST
 				} else {
 					message = (exception as QueryFailedError)['message']
 				}
@@ -80,20 +89,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
 				break
 			case ForbiddenException:
 				statusCode = (exception as ForbiddenException).getStatus()
-				const forbiddenResponse = (
-					exception as ForbiddenException
-				).getResponse()
-				if (
-					typeof forbiddenResponse === 'object' &&
-					forbiddenResponse !== null &&
-					'message' in forbiddenResponse
-				) {
-					message = String(forbiddenResponse['message'])
-				} else if (typeof forbiddenResponse === 'string') {
-					message = forbiddenResponse
-				} else {
-					message = ErrorMessage.UNAUTHORIZED_OPERATION
-				}
+				message = ErrorMessage.UNAUTHORIZED_OPERATION
 				break
 			case NotAcceptableException:
 				statusCode = (exception as NotAcceptableException).getStatus()

@@ -1,12 +1,13 @@
 export const RegEx = {
-	PWD: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^.&*-]).{8,12}$/
+	PASSWORD:
+		/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^.&*-]).{8,12}$/
 }
 
 export const ResponseMessage = {
 	QUERY_SUCCESS: 'Query success'
 }
 
-export const SwaggerDescription = `Swagger based API documentation for App name`
+export const SwaggerDescription = `Swagger-based API documentation for App Name`
 
 export const ErrorMessage = {
 	VALID_FIELD_REQUIRED: (field: string) =>
@@ -23,11 +24,25 @@ export const ErrorMessage = {
 }
 
 export const EmailMessage = {
-	EMAIL_FAILED: 'Email sending failed'
+	EMAIL_FAILED: 'Email sending failed.'
 }
 
 export const AuthResponseMessage = {
-	UNAUTHORIZED_ACCESS: 'Unauthorized Access'
+	UNAUTHORIZED_ACCESS: 'Unauthorized access.',
+	USER_NOT_FOUND: 'User not found.',
+	INVALID_PASSWORD: 'Invalid password',
+	LOGIN_SUCCESSFUL: 'Login successfully'
 }
 
 export const IntegrationResponses = {}
+
+export function toTitleCase(string: string): string {
+	return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+}
+
+export const DtoMessage = {
+	MIN_LENGTH: (field: string, value: number | string): string =>
+		`${toTitleCase(field)} must be at least ${value} characters`,
+	MAX_LENGTH: (field: string, value: number | string): string =>
+		`${toTitleCase(field)} must not exceed ${value} characters`
+}

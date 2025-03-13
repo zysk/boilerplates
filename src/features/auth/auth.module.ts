@@ -8,10 +8,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
 import { JwtStrategy } from './strategy/jwt.strategy'
+import { CaslAbilityFactory } from './guard/casl-ability.factory'
+import { RoleRepository } from './repositories/role.repository'
+import { Role } from './entities/role.entity'
+import { AuthService } from './services/auth.service'
 
 @Module({
 	imports: [
-		TypeOrmModule.forFeature([User]),
+		TypeOrmModule.forFeature([User, Role]),
 		PassportModule.register({ defaultStrategy: 'jwt' }),
 		JwtModule.registerAsync({
 			imports: [ConfigModule],
@@ -25,7 +29,14 @@ import { JwtStrategy } from './strategy/jwt.strategy'
 		})
 	],
 	controllers: [UserController],
-	providers: [UserService, UserRepository, JwtStrategy],
+	providers: [
+		UserService,
+		AuthService,
+		UserRepository,
+		JwtStrategy,
+		CaslAbilityFactory,
+		RoleRepository
+	],
 	exports: [UserRepository]
 })
 export class AuthModule {}

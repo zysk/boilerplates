@@ -11,7 +11,7 @@ import { RoleEnum } from '../enum/role.enum'
 import { RoleRepository } from '../repositories/role.repository'
 
 export enum Action {
-	Manage = 'manage', // Wildcard action
+	Manage = 'manage',
 	Create = 'create',
 	Read = 'read',
 	Update = 'update',
@@ -19,17 +19,17 @@ export enum Action {
 }
 
 export type Subjects = InferSubjects<typeof User> | 'all'
-
 export type AppAbility = PureAbility<[Action, Subjects]>
 
 @Injectable()
 export class CaslAbilityFactory {
 	constructor(private readonly roleRepository: RoleRepository) {}
 
-	async createForUser(user: User) {
+	async createForUser(user: User): Promise<AppAbility> {
 		const { can, cannot, build } = new AbilityBuilder<
 			PureAbility<[Action, Subjects]>
 		>(PureAbility as AbilityClass<AppAbility>)
+
 		const userRole = await this.roleRepository.fetchOneRecord({
 			where: { id: user.role.id },
 			select: { id: true, name: true }
@@ -38,10 +38,9 @@ export class CaslAbilityFactory {
 		if (userRole.name === RoleEnum.ADMIN) {
 			can(Action.Manage, 'all') // Admin can do anything
 		} else {
-			can(Action.Read, User) // Regular users can only read their own details
+			cannot(Action.Read, User).because('Only admins can read users')
 			cannot(Action.Delete, User).because('Only admins can delete users')
 		}
-
 		return build({
 			detectSubjectType: (item) =>
 				item.constructor as ExtractSubjectType<Subjects>

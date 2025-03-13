@@ -62,10 +62,10 @@ export class CustomExceptionFilter implements ExceptionFilter {
 				statusCode = HttpStatus.UNPROCESSABLE_ENTITY
 				if (
 					(exception as QueryFailedError)['message'].includes(
-						ErrorMessage.UNIQUE_KEY_VIOLATED
+						ErrorMessage.UNIQUE_KEY_VIOLATION
 					)
 				) {
-					message = ErrorMessage.RECORD_ALREADY_EXIST
+					message = ErrorMessage.RECORD_ALREADY_EXISTS
 				} else {
 					message = (exception as QueryFailedError)['message']
 				}
@@ -80,7 +80,20 @@ export class CustomExceptionFilter implements ExceptionFilter {
 				break
 			case ForbiddenException:
 				statusCode = (exception as ForbiddenException).getStatus()
-				message = ErrorMessage.UNAUTHORIZED_OPERATION
+				const forbiddenResponse = (
+					exception as ForbiddenException
+				).getResponse()
+				if (
+					typeof forbiddenResponse === 'object' &&
+					forbiddenResponse !== null &&
+					'message' in forbiddenResponse
+				) {
+					message = String(forbiddenResponse['message'])
+				} else if (typeof forbiddenResponse === 'string') {
+					message = forbiddenResponse
+				} else {
+					message = ErrorMessage.UNAUTHORIZED_OPERATION
+				}
 				break
 			case NotAcceptableException:
 				statusCode = (exception as NotAcceptableException).getStatus()

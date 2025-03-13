@@ -3,6 +3,7 @@ import { Logger } from '@nestjs/common'
 import { User } from '../../features/auth/entities/user.entity'
 import { Role } from 'src/features/auth/entities/role.entity'
 import { RoleEnum } from 'src/features/auth/enum/role.enum'
+import { encodePassword } from 'src/common/utils/crypt/bcrypt.util'
 
 export const seedUser = async (dataSource: DataSource) => {
 	const logger = new Logger('Seeder')
@@ -16,16 +17,15 @@ export const seedUser = async (dataSource: DataSource) => {
 	})
 	const users: User[] = [
 		{
-			name: 'admin',
 			email: 'admin@gmail.com',
-			password: 'admin@123',
+			password: encodePassword('admin@123'),
 			role: { id: role.id } as Role
 		}
 	]
 
 	for (const user of users) {
 		const existingUser = await userRepository.findOne({
-			where: { name: user.name }
+			where: { email: user.email }
 		})
 		if (!existingUser) {
 			await userRepository.save(user)

@@ -19,7 +19,7 @@ export function comparePassword(pwd: string, dbPwd: string) {
 
 export function isValidPassword(pwd: string) {
 	const decodeBase64Pwd = decryptBase64(pwd) || ''
-	const pwdRegex = new RegExp(RegEx.PWD)
+	const pwdRegex = new RegExp(RegEx.PASSWORD)
 	return pwd && pwdRegex.test(decodeBase64Pwd)
 }
 

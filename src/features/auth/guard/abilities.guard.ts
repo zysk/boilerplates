@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
+import {
+	CanActivate,
+	ExecutionContext,
+	ForbiddenException,
+	Injectable
+} from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { CaslAbilityFactory } from './casl-ability.factory'
 import { CHECK_ABILITY, RequiredRule } from '../decorator/abilities.decorator'
@@ -28,6 +33,22 @@ export class AbilitiesGuard implements CanActivate {
 
 		const ability = await this.caslAbilityFactory.createForUser(user)
 
-		return rules.every((rule) => ability.can(rule.action, rule.subject))
+		for (const rule of rules) {
+			if (ability.cannot(rule.action, rule.subject)) {
+				// Finding the relevant rule that caused the denial
+				const relevantRule = ability.relevantRuleFor(
+					rule.action,
+					rule.subject
+				)
+				const denialReason =
+					relevantRule?.reason || 'Access denied for this action'
+				throw new ForbiddenException({
+					statusCode: 403,
+					message: denialReason,
+					error: 'Forbidden'
+				})
+			}
+		}
+		return true
 	}
 }

@@ -31,7 +31,8 @@ async function bootstrap() {
 	/* Enables App versioning */
 	app.enableVersioning({
 		type: VersioningType.URI,
-		defaultVersion: '1'
+		defaultVersion: '1',
+		prefix: `api/v`
 	})
 
 	/* Static home page */

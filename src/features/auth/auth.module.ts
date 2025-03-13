@@ -11,6 +11,7 @@ import { JwtStrategy } from './strategy/jwt.strategy'
 import { CaslAbilityFactory } from './guard/casl-ability.factory'
 import { RoleRepository } from './repositories/role.repository'
 import { Role } from './entities/role.entity'
+import { AuthService } from './services/auth.service'
 
 @Module({
 	imports: [
@@ -30,6 +31,7 @@ import { Role } from './entities/role.entity'
 	controllers: [UserController],
 	providers: [
 		UserService,
+		AuthService,
 		UserRepository,
 		JwtStrategy,
 		CaslAbilityFactory,

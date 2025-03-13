@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common'
 import { UserService } from './services/user.service'
-import { CreateUserDto } from './dto/create-user.dto'
+import { CreateUserDto, LoginDto } from './dto/create-user.dto'
 import { CommonController } from '../../common/common.controller'
 import { User } from './entities/user.entity'
 import { ApiDocUser } from '../../shared/swagger/user-doc.decorator'
@@ -9,10 +9,14 @@ import { JwtAuthGuard } from './guard/jwt-auth.guard'
 import { AbilitiesGuard } from './guard/abilities.guard'
 import { CheckAbilities } from './decorator/abilities.decorator'
 import { Action } from './guard/casl-ability.factory'
+import { AuthService } from './services/auth.service'
 
 @Controller('user')
 export class UserController extends CommonController<User> {
-	constructor(private readonly userService: UserService) {
+	constructor(
+		private readonly userService: UserService,
+		private readonly authService: AuthService
+	) {
 		super(userService)
 	}
 
@@ -25,10 +29,13 @@ export class UserController extends CommonController<User> {
 	 */
 	@Post()
 	@ApiDocUser()
-	@UseGuards(JwtAuthGuard, AbilitiesGuard)
-	@CheckAbilities({ action: Action.Create, subject: 'all' })
-	create(@Body() createUserDto: CreateUserDto): Promise<IResponse> {
+	public create(@Body() createUserDto: CreateUserDto): Promise<IResponse> {
 		return this.createRecord(createUserDto, true)
+	}
+
+	@Post('login')
+	public async login(@Body() loginDto: LoginDto) {
+		return this.authService.login(loginDto)
 	}
 
 	/**
@@ -37,7 +44,8 @@ export class UserController extends CommonController<User> {
 	 */
 	@Get()
 	@ApiDocUser()
-	@UseGuards(JwtAuthGuard)
+	@UseGuards(JwtAuthGuard, AbilitiesGuard)
+	@CheckAbilities({ action: Action.Read, subject: User })
 	get(): Promise<IResponse> {
 		return this.fetchAllRecords({}, true)
 	}
